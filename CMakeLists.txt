@@ -16,5 +16,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 #set(SourceFiles ${SourceFolder}/Main.cpp ${SourceFolder}/Home ${SourceFolder}/People)
 
-file(GLOB_RECURSE SourceFolder "Data/*.cpp" "Data/*.h")
-add_executable(Projects_CPP ${SourceFolder})
+file(GLOB_RECURSE VectorFolder "Vector/*.cpp" "Vector/*.h")
+file(GLOB_RECURSE MatrixFolder "Matrix/*.cpp" "Matrix/*.h")
+add_executable(Projects_CPP ${VectorFolder} ${MatrixFolder})

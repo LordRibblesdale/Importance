@@ -33,7 +33,7 @@ Float2::~Float2() {
    y = 0;
 }
 
-//TODO assenza di "+=" e "-="
+//TODO missing "+=" e "-=" operators
 
 Float2& Float2::operator=(const Float2 &point) {
    x = point.getX();
