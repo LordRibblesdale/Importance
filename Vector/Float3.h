@@ -19,8 +19,11 @@ public:
 
    Float3 operator+(const Float3& point);
    Float3 operator-(const Float3& point);
+   Float3& operator+=(const Float3& point);
+   Float3& operator-=(const Float3& point);
 
    Float3 operator*(const float& scalar);
+   Float3& operator*=(const float& scalar);
 
    float dotProduct(const Float3& point) const;
    Float3 crossProduct(const Float3& point) const;

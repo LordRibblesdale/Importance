@@ -18,4 +18,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 file(GLOB_RECURSE VectorFolder "Vector/*.cpp" "Vector/*.h")
 file(GLOB_RECURSE MatrixFolder "Matrix/*.cpp" "Matrix/*.h")
-add_executable(Projects_CPP ${VectorFolder} ${MatrixFolder})
+add_executable(Projects_CPP ${VectorFolder} ${MatrixFolder} Matrix/FloatVect.h Matrix/SquareMatrix.cpp Matrix/SquareMatrix.h)

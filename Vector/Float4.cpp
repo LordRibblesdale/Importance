@@ -36,6 +36,8 @@ Float4 &Float4::operator=(const Float4 &point) {
    y = point.getY();
    z = point.getZ();
    w = point.getW();
+
+   return *this;
 }
 
 Float4 &Float4::operator=(Float4 &&point) {
@@ -48,19 +50,49 @@ Float4 &Float4::operator=(Float4 &&point) {
    point.setY(0);
    point.setZ(0);
    point.setW(0);
+
+   return *this;
 }
 
 Float4 Float4::operator+(const Float4 &point) {
    return Float4(x + point.getX(), y + point.getY(), z + point.getZ(), w + point.getW());
 }
 
+Float4& Float4::operator+=(const Float4 &point) {
+   x += point.getX();
+   y += point.getY();
+   z += point.getZ();
+   w += point.getW();
+
+   return *this;
+}
+
 Float4 Float4::operator-(const Float4 &point) {
    return Float4(x - point.getX(), y - point.getY(), z - point.getZ(), w + point.getW());
+}
+
+Float4& Float4::operator-=(const Float4 &point) {
+   x -= point.getX();
+   y -= point.getY();
+   z -= point.getZ();
+   w += point.getW();
+
+   return *this;
 }
 
 Float4 Float4::operator*(const float &scalar) {
    return Float4(scalar*x, scalar*y, scalar*z, scalar*w);
 }
+
+Float4& Float4::operator*=(const float& scalar) {
+   x *= scalar;
+   y *= scalar;
+   z *= scalar;
+   w *= scalar;
+
+   return *this;
+}
+
 
 float Float4::dotProduct(const Float4 &point) const {
    return x * point.getX() + y * point.getY() + z * point.getZ() + w * point.getW();

@@ -35,6 +35,8 @@ Float3 &Float3::operator=(const Float3 &point) {
    x = point.getX();
    y = point.getY();
    z = point.getZ();
+
+   return *this;
 }
 
 Float3 &Float3::operator=(Float3 &&point) {
@@ -45,18 +47,44 @@ Float3 &Float3::operator=(Float3 &&point) {
    point.setX(0);
    point.setY(0);
    point.setZ(0);
+
+   return *this;
 }
 
 Float3 Float3::operator+(const Float3 &point) {
    return Float3(x + point.getX(), y + point.getY(), z + point.getZ());
 }
 
+Float3& Float3::operator+=(const Float3 &point) {
+   x += point.getX();
+   y += point.getY();
+   z += point.getZ();
+
+   return *this;
+}
+
 Float3 Float3::operator-(const Float3 &point) {
    return Float3(x - point.getX(), y - point.getY(), z - point.getZ());
 }
 
+Float3& Float3::operator-=(const Float3 &point) {
+   x -= point.getX();
+   y -= point.getY();
+   z -= point.getZ();
+
+   return *this;
+}
+
 Float3 Float3::operator*(const float &scalar) {
    return Float3(scalar*x, scalar*y, scalar*z);
+}
+
+Float3& Float3::operator*=(const float &scalar) {
+   x *= scalar;
+   y *= scalar;
+   z *= scalar;
+
+   return *this;
 }
 
 float Float3::dotProduct(const Float3 &point) const {

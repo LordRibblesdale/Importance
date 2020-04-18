@@ -38,6 +38,8 @@ Float2::~Float2() {
 Float2& Float2::operator=(const Float2 &point) {
    x = point.getX();
    y = point.getY();
+
+   return *this;
 }
 
 Float2& Float2::operator=(Float2&& point) {
@@ -46,6 +48,8 @@ Float2& Float2::operator=(Float2&& point) {
 
    point.setX(0);
    point.setY(0);
+
+   return *this;
 }
 
 Float2 Float2::operator+(const Float2& point) {
@@ -56,8 +60,28 @@ Float2 Float2::operator-(const Float2& point) {
    return Float2(x - point.getX(), y - point.getY());
 }
 
+Float2 &Float2::operator+=(const Float2 &point) {
+   x += point.getX();
+   y += point.getY();
+
+   return *this;
+}
+
+Float2 &Float2::operator-=(const Float2 &point) {
+   x -= point.getX();
+   y -= point.getY();
+
+   return *this;
+}
+
 Float2 Float2::operator*(const float& scalar) {
    return Float2(scalar*x, scalar*y);
+}
+
+Float2& Float2::operator*=(const float& scalar) {
+   x *= scalar;
+   y *= scalar;
+   return *this;
 }
 
 float Float2::dotProduct(const Float2& point) const {
