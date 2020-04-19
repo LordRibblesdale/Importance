@@ -1,4 +1,3 @@
-
 #ifndef FLOATVECTOR_H
 #define FLOATVECTOR_H
 
