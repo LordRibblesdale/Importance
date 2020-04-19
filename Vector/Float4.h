@@ -1,12 +1,9 @@
-//
-// Created by Green on 17/04/2020.
-//
-
 #ifndef FLOAT4_H
 #define FLOAT4_H
 
+#include "FloatVector.h"
 
-class Float4 {
+class Float4 : public FloatVector {
 private:
    float x;
    float y;

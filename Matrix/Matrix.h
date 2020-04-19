@@ -1,11 +1,12 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include "FloatVect.h"
+#include "FloatArray.h"
+#include "../Vector/FloatVector.h"
 
 class Matrix {
 private:
-   FloatVect data = FloatVect(nullptr, 0, 0);
+   FloatArray data = FloatArray(nullptr, 0, 0);
 
 public:
    Matrix(float* array, unsigned int rows, unsigned int columns);
@@ -29,7 +30,9 @@ public:
 
    static Matrix createSubMatrix(const Matrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
-   inline FloatVect getData() const {
+   FloatVector multiplyVector(const FloatVector& vector);
+
+   inline FloatArray getData() const {
       return data;
    }
 

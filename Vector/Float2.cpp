@@ -11,16 +11,16 @@
 #include <cmath>
 #include "Float2.h"
 
-Float2::Float2() : x(0), y(0) {}
+Float2::Float2() : FloatVector(2), x(0), y(0) {}
 
-Float2::Float2(const float& x, const float& y) : x(x), y(y) {}
+Float2::Float2(const float& x, const float& y) : FloatVector(2), x(x), y(y) {}
 
-Float2::Float2(const Float2 &point) {
+Float2::Float2(const Float2 &point) : FloatVector(2) {
    x = point.getX();
    y = point.getY();
 }
 
-Float2::Float2(Float2&& point) {
+Float2::Float2(Float2&& point) : FloatVector(2) {
    x = point.getX();
    y = point.getY();
 

@@ -1,7 +1,9 @@
 #ifndef FLOAT3_H
 #define FLOAT3_H
 
-class Float3 {
+#include "FloatVector.h"
+
+class Float3 : public FloatVector {
 private:
    float x;
    float y;

@@ -1,18 +1,18 @@
 #include <cmath>
 #include "Float4.h"
 
-Float4::Float4() : x(0), y(0), z(0), w(0) {}
+Float4::Float4() : FloatVector(4), x(0), y(0), z(0), w(0) {}
 
-Float4::Float4(const float &x, const float &y, const float &z, const float &w) : x(x), y(y), z(z), w(w) {}
+Float4::Float4(const float &x, const float &y, const float &z, const float &w) : FloatVector(4), x(x), y(y), z(z), w(w) {}
 
-Float4::Float4(const Float4 &point) {
+Float4::Float4(const Float4 &point) : FloatVector(4) {
    x = point.getX();
    y = point.getY();
    z = point.getZ();
    w = point.getW();
 }
 
-Float4::Float4(Float4 &&point) {
+Float4::Float4(Float4 &&point) : FloatVector(4) {
    x = point.getX();
    y = point.getY();
    z = point.getZ();

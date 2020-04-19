@@ -1,16 +1,16 @@
 #ifndef FLOATVECT_H
 #define FLOATVECT_H
 
-struct FloatVect {
+struct FloatArray {
 private:
    unsigned int rows;
    unsigned int columns;
    float* array;
 
 public:
-   FloatVect(float* data, unsigned short dimension) : array(data), rows(dimension), columns(dimension) {};
+   FloatArray(float* data, unsigned short dimension) : array(data), rows(dimension), columns(dimension) {};
 
-   FloatVect(float* data, unsigned short rows, unsigned short columns) : array(data), rows(rows), columns(columns) {}
+   FloatArray(float* data, unsigned short rows, unsigned short columns) : array(data), rows(rows), columns(columns) {}
 
    inline float* getArray() const {
       return array;

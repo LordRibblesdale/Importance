@@ -8,9 +8,11 @@
 #define FLOAT2_H
 
 #include <iostream>
+#include "FloatVector.h"
+
 using namespace std;
 
-class Float2 {
+class Float2 : public FloatVector {
 private:
     float x;
     float y;

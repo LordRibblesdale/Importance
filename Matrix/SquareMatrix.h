@@ -2,11 +2,11 @@
 #define SQUAREMATRIX_H
 
 #include "Matrix.h"
-#include "FloatVect.h"
+#include "FloatArray.h"
 
 class SquareMatrix : public Matrix {
 private:
-   FloatVect data = FloatVect(nullptr, 0);
+   FloatArray data = FloatArray(nullptr, 0);
 
 public:
    SquareMatrix(float* array, unsigned int dimension);

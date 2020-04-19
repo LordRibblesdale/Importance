@@ -5,17 +5,17 @@
 #include <cmath>
 #include "Float3.h"
 
-Float3::Float3() : x(0), y(0), z(0) {}
+Float3::Float3() : FloatVector(3), x(0), y(0), z(0) {}
 
-Float3::Float3(const float &x, const float &y, const float &z) : x(x), y(y), z(z) {}
+Float3::Float3(const float &x, const float &y, const float &z) : FloatVector(3), x(x), y(y), z(z) {}
 
-Float3::Float3(const Float3 &point) {
+Float3::Float3(const Float3 &point) : FloatVector(3) {
    x = point.getX();
    y = point.getY();
    z = point.getZ();
 }
 
-Float3::Float3(Float3 &&point) {
+Float3::Float3(Float3 &&point) : FloatVector(3) {
    x = point.getX();
    y = point.getY();
    z = point.getZ();
