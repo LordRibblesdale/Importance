@@ -3,22 +3,24 @@
 
 struct FloatVect {
 private:
-   unsigned short rows;
-   unsigned short columns;
+   unsigned int rows;
+   unsigned int columns;
    float* array;
 
 public:
+   FloatVect(float* data, unsigned short dimension) : array(data), rows(dimension), columns(dimension) {};
+
    FloatVect(float* data, unsigned short rows, unsigned short columns) : array(data), rows(rows), columns(columns) {}
 
-   inline float * getArray() const {
+   inline float* getArray() const {
       return array;
    }
 
-   inline unsigned short getRows() const {
+   inline unsigned int getRows() const {
       return rows;
    }
 
-   inline unsigned short getColumns() const {
+   inline unsigned int getColumns() const {
       return columns;
    }
 

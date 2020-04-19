@@ -8,7 +8,7 @@ private:
    FloatVect data = FloatVect(nullptr, 0, 0);
 
 public:
-   Matrix(float* array, unsigned short rows, unsigned short columns);
+   Matrix(float* array, unsigned int rows, unsigned int columns);
    Matrix(const Matrix& matrix);
    Matrix(Matrix&& matrix);
    ~Matrix();
@@ -25,7 +25,9 @@ public:
    Matrix& operator*=(float scalar);
    Matrix operator*(Matrix& matrix);
 
-   //TODO add transposition, inversion
+   static Matrix transpose(const Matrix& matrix);
+
+   static Matrix createSubMatrix(const Matrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
    inline FloatVect getData() const {
       return data;
@@ -35,11 +37,11 @@ public:
       return data.getArray();
    }
 
-   inline unsigned short getRows() const {
+   inline unsigned int getRows() const {
       return data.getRows();
    }
 
-   inline unsigned short getColumns() const {
+   inline unsigned int getColumns() const {
       return data.getColumns();
    }
 

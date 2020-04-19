@@ -1,7 +1,7 @@
 #include "Matrix.h"
 #include "MatrixDimensionException.h"
 
-Matrix::Matrix(float *array, unsigned short rows, unsigned short columns) {
+Matrix::Matrix(float *array, unsigned int rows, unsigned int columns) {
    data = FloatVect(array, rows, columns);
 }
 
@@ -147,7 +147,30 @@ Matrix Matrix::operator*(Matrix &matrix) {
    return Matrix(newData, getRows(), matrix.getColumns());
 }
 
+Matrix Matrix::transpose(const Matrix &matrix) {
+   float newData[matrix.getRows()*matrix.getColumns()];
 
+   for (int i = 0; i < matrix.getColumns(); ++i) {
+      for (int j = 0; j < matrix.getRows(); ++j) {
+         //TODO check here
+         newData[i*matrix.getRows() + j] = matrix.getData()[j*matrix.getColumns() + i];
+      }
+   }
+
+   return Matrix(newData, matrix.getColumns(), matrix.getRows());
+}
+
+Matrix Matrix::createSubMatrix(const Matrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
+   float newData[(matrix.getRows()-1)*(matrix.getColumns()-1)];
+
+   for (int i = 0; i < matrix.getRows() && i != rowIndex; ++i) {
+      for (int j = 0; j < matrix.getColumns() && j != columnIndex; ++j) {
+         newData[i*matrix.getColumns() + j] = matrix.getArray()[i*matrix.getColumns() + j];
+      }
+   }
+
+   return Matrix(newData, matrix.getRows()-1, matrix.getColumns()-1);
+}
 
 void Matrix::deleteMatrix() {
    for (int i = 0; i < getRows()*getColumns(); ++i) {
