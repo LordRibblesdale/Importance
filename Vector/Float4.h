@@ -4,12 +4,6 @@
 #include "FloatVector.h"
 
 class Float4 : public FloatVector {
-private:
-   float x;
-   float y;
-   float z;
-   float w;
-
 public:
    Float4();
    Float4(const float& x, const float& y, const float& z, const float& w);

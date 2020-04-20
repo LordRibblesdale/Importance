@@ -178,14 +178,19 @@ Matrix Matrix::createSubMatrix(const Matrix &matrix, unsigned int rowIndex, unsi
 
 FloatVector Matrix::multiplyVector(const FloatVector& vector) noexcept(false) {
    if (getColumns() == vector.getSize()) {
-      //TODO build code as FloatVector has coordinates vector in array (no casts + reference in FloatN to array)
-      if (typeid(vector) == typeid(Float2)) {
+      FloatVector newData(vector.getSize(), {});
 
-      } else if (typeid(vector) == typeid(Float3)) {
+      for (int i = 0; i < getRows(); ++i) {
+         float value = 0;
 
-      } else if (typeid(vector) == typeid(Float4)) {
+         for (int j = 0; j < getColumns(); ++j) {
+            value += getArray()[i*getColumns() + j]*vector.getVector().get()[j];
+         }
 
+         newData.getVector().get()[i] = value;
       }
+
+      return move(newData);
    } else {
       string s = "Exception NO_MATCH_LENGTH: matrix and vector do not have correct size. ";
       s.append("Matrix columns: ").append(to_string(getColumns())).append("!= Vector size: ").append(to_string(vector.getSize())).append("\n");
@@ -193,7 +198,7 @@ FloatVector Matrix::multiplyVector(const FloatVector& vector) noexcept(false) {
       throw ExceptionNotifier(s.c_str());
    }
 
-   return NULL;
+   return FloatVector(0, {});
 }
 
 void Matrix::deleteMatrix() {
