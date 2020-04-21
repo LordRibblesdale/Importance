@@ -11,7 +11,7 @@ private:
    const char* s;
 
 public:
-   ExceptionNotifier(const char *s) {
+   ExceptionNotifier(const char*& s) {
       ExceptionNotifier::s = s;
    }
 

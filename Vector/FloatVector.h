@@ -11,7 +11,7 @@ class FloatVector {
 
 public:
    //TODO fix asking size, use directly iterator and counter inside constructor
-   FloatVector(unsigned int size, initializer_list<float> data) {
+   FloatVector(unsigned int size, const initializer_list<float>& data) {
       vector = move(unique_ptr<float>(new float[size]));
       FloatVector::size = size;
 
