@@ -10,11 +10,11 @@ Matrix::Matrix(float *array, unsigned int rows, unsigned int columns) {
 }
 
 Matrix::Matrix(const Matrix &matrix) {
-   data = FloatArray(matrix.getData().getArray(), matrix.getRows(), matrix.getColumns());
+   data = FloatArray(matrix.getData());
 }
 
 Matrix::Matrix(Matrix &&matrix) {
-   data = FloatArray(matrix.getArray(), matrix.getRows(), matrix.getColumns());
+   data = FloatArray(move(matrix.getData()));
 
    matrix.deleteMatrix();
 }

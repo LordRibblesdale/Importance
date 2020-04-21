@@ -37,7 +37,7 @@ public:
    }
 
    inline float* getArray() const {
-      return data.getArray();
+      return data.getArray().get();
    }
 
    inline unsigned int getRows() const {
