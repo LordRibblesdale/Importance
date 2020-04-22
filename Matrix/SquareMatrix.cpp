@@ -14,34 +14,34 @@ void SquareMatrix::transpose() {
    Matrix transposed = Matrix::transpose(*this);
 
    //TODO fix "for" calling (more security in modifying matrix values)
-   for (int i = 0; i < getRows()*getColumns(); ++i) {
-      getArray()[i] = transposed.getArray()[i];
+   for (int i = 0; i < get_rows() * get_columns(); ++i) {
+      get_array()[i] = transposed.get_array()[i];
    }
 }
 
 SquareMatrix SquareMatrix::transpose(const SquareMatrix &matrix) {
    Matrix transposed = Matrix::transpose(matrix);
 
-   return SquareMatrix(transposed.getArray(), transposed.getRows());
+   return SquareMatrix(transposed.get_array(), transposed.get_rows());
 }
 
-SquareMatrix SquareMatrix::createSubMatrix(const SquareMatrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
-   Matrix subMatrix = Matrix::createSubMatrix(matrix, rowIndex, columnIndex);
+SquareMatrix SquareMatrix::create_submatrix(const SquareMatrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
+   Matrix subMatrix = Matrix::create_submatrix(matrix, rowIndex, columnIndex);
 
-   return SquareMatrix(subMatrix.getArray(), subMatrix.getRows());
+   return SquareMatrix(subMatrix.get_array(), subMatrix.get_rows());
 }
 
-float SquareMatrix::calculateDeterminant() const {
-   return calculateDeterminant(*this);
+float SquareMatrix::calculate_determinant() const {
+   return calculate_determinant(*this);
 }
 
-float SquareMatrix::calculateDeterminant(const SquareMatrix& matrix) {
+float SquareMatrix::calculate_determinant(const SquareMatrix& matrix) {
    float determinant = 0;
-   const float* array = matrix.getArray();
+   const float* array = matrix.get_array();
 
    //TODO optimise here
-   //TODO add 0 calculateDeterminant check
-   switch (matrix.getDimension()) {
+   //TODO add 0 calculate_determinant check
+   switch (matrix.get_dimension()) {
       case 1:
          determinant = array[0];
          break;
@@ -56,11 +56,11 @@ float SquareMatrix::calculateDeterminant(const SquareMatrix& matrix) {
          /*
          bool calculateRowDeterminant = false;
 
-         for (int i = 0; i < matrix.getRows(); ++i) {
+         for (int i = 0; i < matrix.get_rows(); ++i) {
             unsigned int zeroCount = 0;
 
-            for (int j = 0; j < matrix.getColumns(); ++j) {
-               if (matrix.getArray()[i*matrix.getColumns()] == 0) {
+            for (int j = 0; j < matrix.get_columns(); ++j) {
+               if (matrix.get_array()[i*matrix.get_columns()] == 0) {
                   ++zeroCount;
                }
             }
@@ -69,30 +69,30 @@ float SquareMatrix::calculateDeterminant(const SquareMatrix& matrix) {
 
          //TODO change calculation through first row
          //TODO improve performance for callings and power calculation
-         for (int i = 0; i < matrix.getColumns(); ++i) {
-            determinant += matrix.getArray()[i]*(powf(-1, i))*calculateDeterminant(createSubMatrix(matrix, 0, i));
+         for (int i = 0; i < matrix.get_columns(); ++i) {
+            determinant += matrix.get_array()[i] * (powf(-1, i)) * calculate_determinant(create_submatrix(matrix, 0, i));
          }
    }
 
    return determinant;
 }
 
-float SquareMatrix::calculateCofactor(const SquareMatrix& matrix, unsigned int rowIndex, unsigned int columnIndex) {
-   return calculateDeterminant(createSubMatrix(matrix, rowIndex, columnIndex));
+float SquareMatrix::calculate_cofactor(const SquareMatrix& matrix, unsigned int rowIndex, unsigned int columnIndex) {
+   return calculate_determinant(create_submatrix(matrix, rowIndex, columnIndex));
 }
 
 void SquareMatrix::invert() {
-   SquareMatrix inverse = SquareMatrix::calculateInverse(*this);
+   SquareMatrix inverse = SquareMatrix::calculate_inverse(*this);
 
    //TODO fix "for" calling (more security in modifying matrix values)
-   for (int i = 0; i < getRows()*getColumns(); ++i) {
-      getArray()[i] = inverse.getArray()[i];
+   for (int i = 0; i < get_rows() * get_columns(); ++i) {
+      get_array()[i] = inverse.get_array()[i];
    }
 }
 
-SquareMatrix SquareMatrix::calculateInverse(const SquareMatrix &matrix) {
-   unsigned int dimension = matrix.getDimension();
-   float determinant = matrix.calculateDeterminant();
+SquareMatrix SquareMatrix::calculate_inverse(const SquareMatrix &matrix) {
+   unsigned int dimension = matrix.get_dimension();
+   float determinant = matrix.calculate_determinant();
    float newData[dimension*dimension];
 
    if (determinant != 0) {
@@ -100,7 +100,7 @@ SquareMatrix SquareMatrix::calculateInverse(const SquareMatrix &matrix) {
 
       for (int i = 0; i < dimension; ++i) {
          for (int j = 0; j < dimension; ++j) {
-            newData[i*dimension + j] = scalar * powf(-1, i+j) * calculateCofactor(matrix, j, i);
+            newData[i*dimension + j] = scalar * powf(-1, i+j) * calculate_cofactor(matrix, j, i);
          }
       }
    }

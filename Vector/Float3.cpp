@@ -5,117 +5,117 @@ Float3::Float3() : FloatVector(3, {0, 0, 0}) {}
 
 Float3::Float3(const float &x, const float &y, const float &z) : FloatVector(3, {x, y, z}) {}
 
-Float3::Float3(const Float3 &point) : FloatVector(3, {point.getX(), point.getY(), point.getZ()}) {}
+Float3::Float3(const Float3 &point) : FloatVector(3, {point.get_x(), point.get_y(), point.get_z()}) {}
 
-Float3::Float3(Float3 &&point) : FloatVector(3, {point.getX(), point.getY(), point.getZ()}) {
-   point.setX(0);
-   point.setY(0);
-   point.setZ(0);
+Float3::Float3(Float3 &&point) : FloatVector(3, {point.get_x(), point.get_y(), point.get_z()}) {
+   point.set_x(0);
+   point.set_y(0);
+   point.set_z(0);
 }
 
 Float3::~Float3() {}
 
 Float3 &Float3::operator=(const Float3 &point) {
-   setX(point.getX());
-   setY(point.getY());
-   setZ(point.getZ());
+   set_x(point.get_x());
+   set_y(point.get_y());
+   set_z(point.get_z());
 
    return *this;
 }
 
 Float3 &Float3::operator=(Float3 &&point) {
-   setX(point.getX());
-   setY(point.getY());
-   setZ(point.getZ());
+   set_x(point.get_x());
+   set_y(point.get_y());
+   set_z(point.get_z());
 
-   point.setX(0);
-   point.setY(0);
-   point.setZ(0);
+   point.set_x(0);
+   point.set_y(0);
+   point.set_z(0);
 
    return *this;
 }
 
 Float3 Float3::operator+(const Float3 &point) {
-   return Float3(getX() + point.getX(), getY() + point.getY(), getZ() + point.getZ());
+   return Float3(get_x() + point.get_x(), get_y() + point.get_y(), get_z() + point.get_z());
 }
 
 Float3& Float3::operator+=(const Float3 &point) {
-   setX(getX() + point.getX());
-   setY(getY() + point.getY());
-   setZ(getZ() + point.getZ());
+   set_x(get_x() + point.get_x());
+   set_y(get_y() + point.get_y());
+   set_z(get_z() + point.get_z());
 
    return *this;
 }
 
 Float3 Float3::operator-(const Float3 &point) {
-   return Float3(getX() - point.getX(), getY() - point.getY(), getZ() - point.getZ());
+   return Float3(get_x() - point.get_x(), get_y() - point.get_y(), get_z() - point.get_z());
 }
 
 Float3& Float3::operator-=(const Float3 &point) {
-   setX(getX() - point.getX());
-   setY(getY() - point.getY());
-   setZ(getZ() - point.getZ());
+   set_x(get_x() - point.get_x());
+   set_y(get_y() - point.get_y());
+   set_z(get_z() - point.get_z());
 
    return *this;
 }
 
 Float3 Float3::operator*(const float &scalar) {
-   return Float3(scalar*getX(), scalar*getY(), scalar*getZ());
+   return Float3(scalar * get_x(), scalar * get_y(), scalar * get_z());
 }
 
 Float3& Float3::operator*=(const float &scalar) {
-   setX(getX() * scalar);
-   setY(getY() * scalar);
-   setZ(getZ() * scalar);
+   set_x(get_x() * scalar);
+   set_y(get_y() * scalar);
+   set_z(get_z() * scalar);
 
    return *this;
 }
 
-float Float3::dotProduct(const Float3 &point) const {
-   return getX() * point.getX() + getY() * point.getY() + getZ() * point.getZ();
+float Float3::dot_product(const Float3 &point) const {
+   return get_x() * point.get_x() + get_y() * point.get_y() + get_z() * point.get_z();
 }
 
-Float3 Float3::crossProduct(const Float3& point) const {
-   return Float3(getY() * point.getZ() - getZ() * point.getY(),
-           -(getX() * point.getZ() - getZ() * point.getX()),
-                 getX() * point.getY() - getY() * point.getX());
+Float3 Float3::cross_product(const Float3& point) const {
+   return Float3(get_y() * point.get_z() - get_z() * point.get_y(),
+                 -(get_x() * point.get_z() - get_z() * point.get_x()),
+                 get_x() * point.get_y() - get_y() * point.get_x());
 }
 
-float Float3::l2Norm() const {
-   return sqrtf(getX()*getX() + getY()*getY() + getZ()*getZ());
+float Float3::l2_norm() const {
+   return sqrtf(get_x() * get_x() + get_y() * get_y() + get_z() * get_z());
 }
 
 Float3 Float3::normalize() {
-   float norm = l2Norm();
+   float norm = l2_norm();
     if (norm != 0) {
-       setX(getX() / norm);
-       setY(getY() / norm);
-       setZ(getZ() / norm);
+       set_x(get_x() / norm);
+       set_y(get_y() / norm);
+       set_z(get_z() / norm);
     }
 
     return *this;
 }
 
-float Float3::getX() const {
-   return getVector().get()[0];
+float Float3::get_x() const {
+   return get_vector().get()[0];
 }
 
-float Float3::getY() const {
-   return getVector().get()[1];
+float Float3::get_y() const {
+   return get_vector().get()[1];
 }
 
-float Float3::getZ() const {
-   return getVector().get()[2];
+float Float3::get_z() const {
+   return get_vector().get()[2];
 }
 
-void Float3::setX(const float &x) {
-   getVector().get()[0] = x;
+void Float3::set_x(const float &x) {
+   get_vector().get()[0] = x;
 }
 
-void Float3::setY(const float &y) {
-   getVector().get()[1] = y;
+void Float3::set_y(const float &y) {
+   get_vector().get()[1] = y;
 }
 
-void Float3::setZ(const float &z) {
-   getVector().get()[2] = z;
+void Float3::set_z(const float &z) {
+   get_vector().get()[2] = z;
 }

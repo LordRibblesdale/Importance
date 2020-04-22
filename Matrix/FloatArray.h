@@ -29,15 +29,15 @@ public:
 
    FloatArray& operator=(FloatArray&& floatArray);
 
-   inline const unique_ptr<float>& getArray() const {
+   inline const unique_ptr<float>& get_array() const {
       return array;
    }
 
-   inline unsigned int getRows() const {
+   inline unsigned int get_rows() const {
       return rows;
    }
 
-   inline unsigned int getColumns() const {
+   inline unsigned int get_columns() const {
       return columns;
    }
 

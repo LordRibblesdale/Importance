@@ -22,19 +22,19 @@ public:
    Float3 operator*(const float& scalar);
    Float3& operator*=(const float& scalar);
 
-   float dotProduct(const Float3& point) const;
-   Float3 crossProduct(const Float3& point) const;
+   float dot_product(const Float3& point) const;
+   Float3 cross_product(const Float3& point) const;
 
-   float l2Norm() const;
+   float l2_norm() const;
    Float3 normalize();
 
-   float getX() const;
-   float getY() const;
-   float getZ() const;
+   float get_x() const;
+   float get_y() const;
+   float get_z() const;
 
-   void setX(const float& x);
-   void setY(const float& y);
-   void setZ(const float& z);
+   void set_x(const float& x);
+   void set_y(const float& y);
+   void set_z(const float& z);
 };
 
 #endif //FLOAT3_H

@@ -6,7 +6,7 @@
 
 class Matrix {
 private:
-   FloatArray data = FloatArray(nullptr, 0, 0);
+   FloatArray data_ = FloatArray(nullptr, 0, 0);
 
 public:
    Matrix(float* array, unsigned int rows, unsigned int columns);
@@ -28,27 +28,27 @@ public:
 
    static Matrix transpose(const Matrix& matrix);
 
-   static Matrix createSubMatrix(const Matrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
+   static Matrix create_submatrix(const Matrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
-   FloatVector multiplyVector(const FloatVector& vector);
+   FloatVector multiply_vector(const FloatVector& vector);
 
-   inline FloatArray getData() const {
-      return data;
+   inline FloatArray get_data() const {
+      return data_;
    }
 
-   inline float* getArray() const {
-      return data.getArray().get();
+   inline float* get_array() const {
+      return data_.get_array().get();
    }
 
-   inline unsigned int getRows() const {
-      return data.getRows();
+   inline unsigned int get_rows() const {
+      return data_.get_rows();
    }
 
-   inline unsigned int getColumns() const {
-      return data.getColumns();
+   inline unsigned int get_columns() const {
+      return data_.get_columns();
    }
 
-   void deleteMatrix();
+   void delete_matrix();
 };
 
 #endif //MATRIX_H

@@ -32,17 +32,17 @@ public:
     Float2 operator*(const float& scalar);
     Float2& operator*=(const float& scalar);
 
-    float dotProduct(const Float2& point) const;
-    Float2 crossProduct() const;
+    float dot_product(const Float2& point) const;
+    Float2 cross_product() const;
 
-    float l2Norm() const;
+    float l2_norm() const;
     Float2 normalize();
 
-    float getX() const;
-    float getY() const;
+    float get_x() const;
+    float get_y() const;
 
-    void setX(const float& x);
-    void setY(const float& y);
+    void set_x(const float& x);
+    void set_y(const float& y);
 };
 
 ostream& operator<<(ostream& stream, const Float2& point);

@@ -22,21 +22,21 @@ public:
    Float4 operator*(const float& scalar);
    Float4& operator*=(const float& scalar);
 
-   float dotProduct(const Float4& point) const;
+   float dot_product(const Float4& point) const;
    Float4 crossProduct(const Float4& point) const;
 
-   float l2Norm() const;
+   float l2_norm() const;
    Float4 normalize();
 
-   float getX() const;
-   float getY() const;
-   float getZ() const;
-   float getW() const;
+   float get_x() const;
+   float get_y() const;
+   float get_z() const;
+   float get_w() const;
 
-   void setX(const float& x);
-   void setY(const float& y);
-   void setZ(const float& z);
-   void setW(const float& w);
+   void set_x(const float& x);
+   void set_y(const float& y);
+   void set_z(const float& z);
+   void set_w(const float& w);
 };
 
 

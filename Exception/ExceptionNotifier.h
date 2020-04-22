@@ -8,15 +8,15 @@ using namespace std;
 
 class ExceptionNotifier : public exception {
 private:
-   const char* s;
+   const char* s_;
 
 public:
    ExceptionNotifier(const char* s) {
-      ExceptionNotifier::s = s;
+      s_ = s;
    }
 
    const char *what() const noexcept {
-      return s;
+      return s_;
    }
 };
 

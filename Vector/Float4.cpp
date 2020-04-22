@@ -5,135 +5,135 @@ Float4::Float4() : FloatVector(4, {0, 0, 0, 0}) {}
 
 Float4::Float4(const float &x, const float &y, const float &z, const float &w) : FloatVector(4, {x, y, z, w}) {}
 
-Float4::Float4(const Float4 &point) : FloatVector(4, {point.getX(), point.getY(), point.getZ(), point.getW()}) {}
+Float4::Float4(const Float4 &point) : FloatVector(4, {point.get_x(), point.get_y(), point.get_z(), point.get_w()}) {}
 
-Float4::Float4(Float4 &&point) : FloatVector(4, {point.getX(), point.getY(), point.getZ(), point.getW()}) {
-   point.setX(0);
-   point.setY(0);
-   point.setZ(0);
-   point.setW(0);
+Float4::Float4(Float4 &&point) : FloatVector(4, {point.get_x(), point.get_y(), point.get_z(), point.get_w()}) {
+   point.set_x(0);
+   point.set_y(0);
+   point.set_z(0);
+   point.set_w(0);
 }
 
 Float4::~Float4() {}
 
 Float4 &Float4::operator=(const Float4 &point) {
-   setX(point.getX());
-   setY(point.getY());
-   setZ(point.getZ());
-   setW(point.getW());
+   set_x(point.get_x());
+   set_y(point.get_y());
+   set_z(point.get_z());
+   set_w(point.get_w());
 
    return *this;
 }
 
 Float4 &Float4::operator=(Float4 &&point) {
-   setX(point.getX());
-   setY(point.getY());
-   setZ(point.getZ());
-   setW(point.getW());
+   set_x(point.get_x());
+   set_y(point.get_y());
+   set_z(point.get_z());
+   set_w(point.get_w());
 
-   point.setX(0);
-   point.setY(0);
-   point.setZ(0);
-   point.setW(0);
+   point.set_x(0);
+   point.set_y(0);
+   point.set_z(0);
+   point.set_w(0);
 
    return *this;
 }
 
 Float4 Float4::operator+(const Float4 &point) {
-   return Float4(getX() + point.getX(), getY() + point.getY(), getZ() + point.getZ(), getW() + point.getW());
+   return Float4(get_x() + point.get_x(), get_y() + point.get_y(), get_z() + point.get_z(), get_w() + point.get_w());
 }
 
 Float4& Float4::operator+=(const Float4 &point) {
-   setX(getX() + point.getX());
-   setY(getY() + point.getY());
-   setZ(getZ() + point.getZ());
-   setW(getW() + point.getW());
+   set_x(get_x() + point.get_x());
+   set_y(get_y() + point.get_y());
+   set_z(get_z() + point.get_z());
+   set_w(get_w() + point.get_w());
 
    return *this;
 }
 
 Float4 Float4::operator-(const Float4 &point) {
-   return Float4(getX() - point.getX(), getY() - point.getY(), getZ() - point.getZ(), getW() + point.getW());
+   return Float4(get_x() - point.get_x(), get_y() - point.get_y(), get_z() - point.get_z(), get_w() + point.get_w());
 }
 
 Float4& Float4::operator-=(const Float4 &point) {
-   setX(getX() - point.getX());
-   setY(getY() - point.getY());
-   setZ(getZ() - point.getZ());
-   setW(getW() + point.getW());
+   set_x(get_x() - point.get_x());
+   set_y(get_y() - point.get_y());
+   set_z(get_z() - point.get_z());
+   set_w(get_w() + point.get_w());
 
    return *this;
 }
 
 Float4 Float4::operator*(const float &scalar) {
-   return Float4(scalar*getX(), scalar*getY(), scalar*getZ(), scalar*getW());
+   return Float4(scalar * get_x(), scalar * get_y(), scalar * get_z(), scalar * get_w());
 }
 
 Float4& Float4::operator*=(const float& scalar) {
-   setX(getX() * scalar);
-   setY(getY() * scalar);
-   setZ(getZ() * scalar);
-   setW(getW() * scalar);
+   set_x(get_x() * scalar);
+   set_y(get_y() * scalar);
+   set_z(get_z() * scalar);
+   set_w(get_w() * scalar);
 
    return *this;
 }
 
-float Float4::dotProduct(const Float4 &point) const {
-   return getX() * point.getX() + getY() * point.getY() + getZ() * point.getZ() + getW() * point.getW();
+float Float4::dot_product(const Float4 &point) const {
+   return get_x() * point.get_x() + get_y() * point.get_y() + get_z() * point.get_z() + get_w() * point.get_w();
 }
 
 /*
-Float4 Float4::crossProduct(const Float4& point) const {
-   return Float4(y * point.getZ() - z * point.getY(),
-                 x * point.getZ() - z * point.getX(),
-                 x * point.getY() - y * point.getX());
+Float4 Float4::cross_product(const Float4& point) const {
+   return Float4(y * point.get_z() - z * point.get_y(),
+                 x * point.get_z() - z * point.get_x(),
+                 x * point.get_y() - y * point.get_x());
 }
  */
 
-float Float4::l2Norm() const {
-   return sqrtf(getX()*getX() + getY()*getY() + getZ()*getZ() + getW()*getW());
+float Float4::l2_norm() const {
+   return sqrtf(get_x() * get_x() + get_y() * get_y() + get_z() * get_z() + get_w() * get_w());
 }
 
 Float4 Float4::normalize() {
-   float norm = l2Norm();
+   float norm = l2_norm();
    if (norm != 0) {
-      setX(getX() / norm);
-      setY(getY() / norm);
-      setZ(getZ() / norm);
-      setW(getW() / norm);
+      set_x(get_x() / norm);
+      set_y(get_y() / norm);
+      set_z(get_z() / norm);
+      set_w(get_w() / norm);
    }
 
    return *this;
 }
 
-float Float4::getX() const {
-   return getVector().get()[0];
+float Float4::get_x() const {
+   return get_vector().get()[0];
 }
 
-float Float4::getY() const {
-   return getVector().get()[1];
+float Float4::get_y() const {
+   return get_vector().get()[1];
 }
 
-float Float4::getZ() const {
-   return getVector().get()[2];
+float Float4::get_z() const {
+   return get_vector().get()[2];
 }
 
-float Float4::getW() const {
-   return getVector().get()[3];
+float Float4::get_w() const {
+   return get_vector().get()[3];
 }
 
-void Float4::setX(const float &x) {
-   getVector().get()[0] = x;
+void Float4::set_x(const float &x) {
+   get_vector().get()[0] = x;
 }
 
-void Float4::setY(const float &y) {
-   getVector().get()[1] = y;
+void Float4::set_y(const float &y) {
+   get_vector().get()[1] = y;
 }
 
-void Float4::setZ(const float &z) {
-   getVector().get()[2] = z;
+void Float4::set_z(const float &z) {
+   get_vector().get()[2] = z;
 }
 
-void Float4::setW(const float &w) {
-   getVector().get()[3] = w;
+void Float4::set_w(const float &w) {
+   get_vector().get()[3] = w;
 }
