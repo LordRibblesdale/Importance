@@ -1,7 +1,3 @@
-//
-// Created by Green on 17/04/2020.
-//
-
 #include <cmath>
 #include "Float3.h"
 

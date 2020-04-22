@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class FloatVector {
+struct FloatVector {
    unique_ptr<float> vector;
    unsigned int size;
 

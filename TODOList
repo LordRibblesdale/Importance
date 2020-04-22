@@ -1,1 +1,5 @@
--> Check all pointers and deletes (use of unique_ptr?)
+-> Check all exceptions and noexcept(false) declarations
+-> Correct all names based on code styles
+-> Add rotations, translations, matrix conversion in upper dimension (example: projective-4)
+
+-> Check all pointers and deletes (use of unique_ptr?) - DONE

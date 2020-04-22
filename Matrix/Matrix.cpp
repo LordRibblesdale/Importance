@@ -1,9 +1,5 @@
 #include "Matrix.h"
 #include "../Exception/ExceptionNotifier.h"
-#include <memory>
-#include "..\Vector\Float2.h"
-#include "..\Vector\Float3.h"
-#include "..\Vector\Float4.h"
 
 Matrix::Matrix(float *array, unsigned int rows, unsigned int columns) {
    data = FloatArray(array, rows, columns);
@@ -134,9 +130,9 @@ Matrix Matrix::operator*(Matrix &matrix) noexcept(false) {
 
    if (getColumns() == matrix.getRows()) {
 
-      for (int r = 0; r < getRows(); ++r) {
-         for (int c = 0; c < getColumns(); ++c) {
-            for (int i = 0; i < getColumns(); ++i) {
+      for (unsigned int r = 0; r < getRows(); ++r) {
+         for (unsigned int c = 0; c < getColumns(); ++c) {
+            for (unsigned int i = 0; i < getColumns(); ++i) {
                newData[r*getColumns()+c] += data[r*getColumns()+i]*matrix.getData()[getColumns()*i+c];
             }
          }
@@ -197,8 +193,6 @@ FloatVector Matrix::multiplyVector(const FloatVector& vector) noexcept(false) {
 
       throw ExceptionNotifier(s.c_str());
    }
-
-   return FloatVector(0, {});
 }
 
 void Matrix::deleteMatrix() {
