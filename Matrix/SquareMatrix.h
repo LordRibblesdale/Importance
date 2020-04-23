@@ -5,11 +5,9 @@
 #include "FloatArray.h"
 
 class SquareMatrix : public Matrix {
-private:
-   FloatArray data_ = FloatArray(nullptr, 0);
-
 public:
-   SquareMatrix(float* array, unsigned int dimension);
+   SquareMatrix(unsigned int dimension, const initializer_list<float>& data);
+   SquareMatrix(unsigned int dimension, float*& data);
    SquareMatrix(const SquareMatrix& matrix);
    SquareMatrix(SquareMatrix&& matrix);
    ~SquareMatrix();

@@ -7,22 +7,20 @@ using namespace std;
 
 struct FloatArray {
 private:
-   unsigned int rows;
-   unsigned int columns;
-   unique_ptr<float> array;
+   unsigned int rows_;
+   unsigned int columns_;
+   unique_ptr<float> array_;
 
 public:
-   FloatArray(float* data, unsigned short dimension) : array(data), rows(dimension), columns(dimension) {};
-
-   FloatArray(float* data, unsigned short rows, unsigned short columns) : array(data), rows(rows), columns(columns) {}
-
+   FloatArray(unsigned short dimension, const initializer_list<float>& data);
+   FloatArray(unsigned short rows, unsigned short columns, const initializer_list<float>& data);
+   FloatArray(unsigned short rows, unsigned short columns, float*& data);
    FloatArray(const FloatArray& floatArray);
-
    FloatArray(FloatArray&& floatArray);
 
    ~FloatArray() {
-      rows = 0;
-      columns = 0;
+      rows_ = 0;
+      columns_ = 0;
    }
 
    FloatArray& operator=(const FloatArray& floatArray);
@@ -30,19 +28,19 @@ public:
    FloatArray& operator=(FloatArray&& floatArray);
 
    inline const unique_ptr<float>& get_array() const {
-      return array;
+      return array_;
    }
 
    inline unsigned int get_rows() const {
-      return rows;
+      return rows_;
    }
 
    inline unsigned int get_columns() const {
-      return columns;
+      return columns_;
    }
 
    float& operator[](int i) {
-      return array.get()[i];
+      return array_.get()[i];
    }
 };
 

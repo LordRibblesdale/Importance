@@ -23,7 +23,7 @@ public:
    Float4& operator*=(const float& scalar);
 
    float dot_product(const Float4& point) const;
-   Float4 crossProduct(const Float4& point) const;
+   Float4 cross_product(const Float4& point) const;
 
    float l2_norm() const;
    Float4 normalize();
@@ -38,6 +38,5 @@ public:
    void set_z(const float& z);
    void set_w(const float& w);
 };
-
 
 #endif //FLOAT4_H

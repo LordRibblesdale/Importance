@@ -5,11 +5,12 @@
 #include "../Vector/FloatVector.h"
 
 class Matrix {
-private:
-   FloatArray data_ = FloatArray(nullptr, 0, 0);
+protected:
+   FloatArray data_ = FloatArray(0, 0, {});
 
 public:
-   Matrix(float* array, unsigned int rows, unsigned int columns);
+   Matrix(unsigned int rows, unsigned int columns, const initializer_list<float>& data);
+   Matrix(unsigned int rows, unsigned int columns, float*& data);
    Matrix(const Matrix& matrix);
    Matrix(Matrix&& matrix);
    ~Matrix();
@@ -30,7 +31,7 @@ public:
 
    static Matrix create_submatrix(const Matrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
-   FloatVector multiply_vector(const FloatVector& vector);
+   FloatVector multiply_vector(const FloatVector& vector) const;
 
    inline FloatArray get_data() const {
       return data_;
@@ -49,6 +50,8 @@ public:
    }
 
    void delete_matrix();
+
+   string to_string() const;
 };
 
 #endif //MATRIX_H

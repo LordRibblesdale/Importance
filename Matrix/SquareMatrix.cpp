@@ -1,8 +1,11 @@
 #include "SquareMatrix.h"
 #include "memory"
 #include <cmath>
+#include <iostream>
 
-SquareMatrix::SquareMatrix(float *array, unsigned int dimension) : Matrix(array, dimension, dimension) {}
+SquareMatrix::SquareMatrix(unsigned int dimension, const initializer_list<float>& data) : Matrix(dimension, dimension, data) {}
+
+SquareMatrix::SquareMatrix(unsigned int dimension, float*& array) : Matrix(dimension, dimension, array) {}
 
 SquareMatrix::SquareMatrix(const SquareMatrix &matrix) : Matrix(matrix) {}
 
@@ -22,13 +25,14 @@ void SquareMatrix::transpose() {
 SquareMatrix SquareMatrix::transpose(const SquareMatrix &matrix) {
    Matrix transposed = Matrix::transpose(matrix);
 
-   return SquareMatrix(transposed.get_array(), transposed.get_rows());
+   //TODO check cast
+   return SquareMatrix(move(*static_cast<SquareMatrix*>(&transposed)));
 }
 
 SquareMatrix SquareMatrix::create_submatrix(const SquareMatrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
    Matrix subMatrix = Matrix::create_submatrix(matrix, rowIndex, columnIndex);
 
-   return SquareMatrix(subMatrix.get_array(), subMatrix.get_rows());
+   return SquareMatrix(move(*static_cast<SquareMatrix*>(&subMatrix)));
 }
 
 float SquareMatrix::calculate_determinant() const {
@@ -70,7 +74,7 @@ float SquareMatrix::calculate_determinant(const SquareMatrix& matrix) {
          //TODO change calculation through first row
          //TODO improve performance for callings and power calculation
          for (int i = 0; i < matrix.get_columns(); ++i) {
-            determinant += matrix.get_array()[i] * (powf(-1, i)) * calculate_determinant(create_submatrix(matrix, 0, i));
+            determinant += matrix.get_array()[i] * (i % 2 == 0 ? 1 : -1) * calculate_determinant(create_submatrix(matrix, 0, i));
          }
    }
 
@@ -93,19 +97,19 @@ void SquareMatrix::invert() {
 SquareMatrix SquareMatrix::calculate_inverse(const SquareMatrix &matrix) {
    unsigned int dimension = matrix.get_dimension();
    float determinant = matrix.calculate_determinant();
-   float newData[dimension*dimension];
+   auto* newData = new float[dimension*dimension];
 
    if (determinant != 0) {
-      float scalar = 1 / determinant;
+      float scalar = abs(1 / determinant);
 
-      for (int i = 0; i < dimension; ++i) {
-         for (int j = 0; j < dimension; ++j) {
-            newData[i*dimension + j] = scalar * powf(-1, i+j) * calculate_cofactor(matrix, j, i);
+      for (unsigned int i = 0; i < dimension; ++i) {
+         for (unsigned int j = 0; j < dimension; ++j) {
+            newData[i*dimension + j] = scalar * ((i+j) % 2 == 0 ? 1 : -1) * calculate_cofactor(matrix, j, i);
          }
       }
    }
 
-   return SquareMatrix(newData, dimension);
+   return SquareMatrix(dimension, newData);
 }
 
 
