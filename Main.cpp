@@ -1,38 +1,76 @@
+#include "glad.h"
+#include "glfw3.h"
+
 #include <iostream>
 
-#include "Matrix/SquareMatrix.h"
-#include "Vector/Float4.h"
+const unsigned int WIDTH = 640;
+const unsigned int HEIGHT = 480;
 
-using namespace std;
+void function(GLFWwindow* vindow, int width, int height) {
+   //-> chiamata nelle callback di glViewport(0, 0, width, height);
+   // glViewport è la matrice che passa da NDP a Screen
+   glViewport(0, 0, width, height);
+}
 
-int main() {
-   /*
-   Matrix matrix0(3, 5, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
-   Matrix matrix2(3, 5, {-1, 2, -3, 4, -5, 6, -7, 8, -9, 10, -11, 12, -13, 14, -15});
-   SquareMatrix matrix1(4, {3, -1, 0, -1, -1, 3, -1, 0, 0, -1 , 3, -1, -1, 0, -1, 3});
-   SquareMatrix matrix3(move(SquareMatrix::calculate_inverse(matrix1)));
+void pollInput(GLFWwindow* window) {
+   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+      glfwSetWindowShouldClose(window, true);
+   }
+}
 
-   Float4 vector0(1, 6, 5, 4);
-   FloatVector vector1(5, {0, 5, 10, 100, 96});
+// Argument as XML file importer
+int main(int argc, char** argv) {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-   //cout << vector0.to_string() << endl;
-   //cout << vector1.to_string() << endl;
+    #ifdef __APPLE
+       glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
 
-   //cout << (matrix0.multiply_vector(vector1)).to_string() << endl;
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Cotecchio Game", nullptr, nullptr);
+    //(nessuna condivisione con share, nessuna finestra a cui dipendere)
 
-   //cout << (matrix0 + matrix2).to_string() << endl << endl;
-   //cout << (matrix0 - matrix2).to_string() << endl << endl;
+    if (!window) {
+       std::cout << "Error INITIALISATION: window cannot be initialised.";
+       glfwTerminate();
 
-   //cout << matrix1.to_string() << endl << endl;
-   //cout << matrix3.to_string() << endl << endl;
+       return -1;
+    }
 
-   //cout << (matrix1*matrix3).to_string() << endl << endl;
+    glfwMakeContextCurrent(window); // legare contesto di OpenGL alla finestra (struttura di macchina di stato, eseguite operazioni in un contesto)
 
-   //cout << (matrix2.multiply_vector(vector1)).to_string() << endl << endl;
+    // Chiamare determinate callbacks per ogni
+    glfwSetWindowSizeCallback(window, function);
 
-   //cout << (matrix1.multiply_vector(vector0)).to_string() << endl << endl;
-   //cout << (Matrix::create_submatrix(matrix1, 3, 3)).to_string() << endl << endl;
-    */
+    if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+       std::cout << "Error LOADING GL: libraries cannot be called";
+       glfwTerminate();
+
+       return -1;
+    }
+    // Chiamate di GLAD e di GLFW
+
+    //Creazione di Render Loop (infinito, finisce quando esce dalla finestra)
+
+    while (!glfwWindowShouldClose(window)) { // semmai la finestra dovesse chiudersi
+       // Gestione degli input
+
+       glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
+       glClear(GL_COLOR_BUFFER_BIT); // In base all'ordine, modifica lo stato del sistema corrente o successivo
+       //Necessità di modificare il buffer prima di inviarlo
+
+       // prima, modifica il buffer B (sul successivo)
+       glfwSwapBuffers(window);   // Crea multipli frame buffers per aggiornare i pixel, (double buffer, triple buffer, area di memoria per salvare framebuffer attuale e successivo), swap al frame buffer preparatorio)
+          // Sostituisce questo buffer con quello successivo, visualizzando quello già riempito
+          // Cambia frame buffer su cui lavorare
+       glfwPollEvents();
+       // Controlla tutti gli eventi in background (qualunque) OBBLIGATORIO
+    }
+
+    glfwTerminate();
+
 
    return 0;
 }
