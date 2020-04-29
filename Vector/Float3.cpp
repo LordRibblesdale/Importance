@@ -1,5 +1,6 @@
 #include <cmath>
 #include "Float3.h"
+#include "../Matrix/SquareMatrix.h"
 
 Float3::Float3() : FloatVector(3, {0, 0, 0}) {}
 
@@ -88,9 +89,10 @@ float Float3::l2_norm() const {
 Float3 Float3::normalize() {
    float norm = l2_norm();
     if (norm != 0) {
-       set_x(get_x() / norm);
-       set_y(get_y() / norm);
-       set_z(get_z() / norm);
+       float n = 1/norm;
+       set_x(get_x()*n);
+       set_y(get_y()*n);
+       set_z(get_z()*n);
     }
 
     return *this;
@@ -118,4 +120,31 @@ void Float3::set_y(const float &y) {
 
 void Float3::set_z(const float &z) {
    get_vector().get()[2] = z;
+}
+
+Float3 Float3::axisXRotateVertex3(const Float3 &vector, const float& angleX) {
+   float cosAngle = cosf(angleX);
+   float sinAngle = sinf(angleX);
+   SquareMatrix rotation(9, {1, 0, 0, 0, cosAngle, -sinAngle, 0, sinAngle, cosAngle});
+   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+
+   return Float3(*static_cast<Float3*>(&rotatedVertex));
+}
+
+Float3 Float3::axisYRotateVertex3(const Float3 &vector, const float& angleY) {
+   float cosAngle = cosf(angleY);
+   float sinAngle = sinf(angleY);
+   SquareMatrix rotation(9, {cosAngle, 0, sinAngle, 0, 1, 0, -sinAngle, 0, cosAngle});
+   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+
+   return Float3(*static_cast<Float3*>(&rotatedVertex));
+}
+
+Float3 Float3::axisZRotateVertex3(const Float3 &vector, const float& angleZ) {
+   float cosAngle = cosf(angleZ);
+   float sinAngle = sinf(angleZ);
+   SquareMatrix rotation(9, {cosAngle, -sinAngle, 0, sinAngle, cosAngle, 0, 0, 0, 1});
+   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+
+   return Float3(*static_cast<Float3*>(&rotatedVertex));
 }

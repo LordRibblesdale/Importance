@@ -43,6 +43,9 @@ public:
 
     void set_x(const float& x);
     void set_y(const float& y);
+
+    //Rotation functions
+    static Float2 axisRotateVertex2(const Float2& vector, const float& angle);
 };
 
 ostream& operator<<(ostream& stream, const Float2& point);

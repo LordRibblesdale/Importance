@@ -10,6 +10,7 @@
 
 #include <cmath>
 #include "Float2.h"
+#include "../Matrix/SquareMatrix.h"
 
 Float2::Float2() : FloatVector(2, {0, 0}) {}
 
@@ -91,8 +92,9 @@ Float2 Float2::normalize() {
    float norm = l2_norm();
 
    if (norm != 0) {
-      set_x(get_x() / norm);
-      set_y(get_y() / norm);
+      float n = 1/norm;
+      set_x(get_x()*n);
+      set_y(get_y()*n);
    }
 
    return *this;
@@ -112,6 +114,15 @@ void Float2::set_x(const float& x) {
 
 void Float2::set_y(const float& y) {
    get_vector().get()[1] = y;
+}
+
+Float2 Float2::axisRotateVertex2(const Float2 &vector, const float& angle) {
+   float cosAngle = cosf(angle);
+   float sinAngle = sinf(angle);
+   SquareMatrix rotation(4, {cosAngle, -sinAngle, sinAngle, cosAngle});
+   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+
+   return Float2(*static_cast<Float2*>(&rotatedVertex));
 }
 
 ostream& operator<<(ostream& stream, const Float2& point) {

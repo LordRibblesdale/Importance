@@ -35,6 +35,13 @@ public:
    void set_x(const float& x);
    void set_y(const float& y);
    void set_z(const float& z);
+
+   // Rotation functions
+   static Float3 axisXRotateVertex3(const Float3& vector, const float& angleX);
+
+   static Float3 axisYRotateVertex3(const Float3& vector, const float& angleY);
+
+   static Float3 axisZRotateVertex3(const Float3& vector, const float& angleZ);
 };
 
 #endif //FLOAT3_H

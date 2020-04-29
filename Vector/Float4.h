@@ -2,6 +2,7 @@
 #define FLOAT4_H
 
 #include "FloatVector.h"
+#include "Float3.h"
 
 class Float4 : public FloatVector {
 public:
@@ -37,6 +38,9 @@ public:
    void set_y(const float& y);
    void set_z(const float& z);
    void set_w(const float& w);
+
+   //Rotation functions
+   static Float4 quaternionAxisRotateVertex4(const Float4& vector, const Float3& direction, const float& angle);
 };
 
 #endif //FLOAT4_H
