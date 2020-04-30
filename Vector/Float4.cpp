@@ -1,6 +1,5 @@
 #include <cmath>
 #include "Float4.h"
-#include "../Matrix/SquareMatrix.h"
 
 Float4::Float4() : FloatVector(4, {0, 0, 0, 0}) {}
 
@@ -138,23 +137,4 @@ void Float4::set_z(const float &z) {
 
 void Float4::set_w(const float &w) {
    get_vector().get()[3] = w;
-}
-
-Float4 Float4::quaternionAxisRotateVertex4(const Float4 &vector, const Float3 &direction, const float &angle) {
-   float s;
-   float cosAngle;
-   Float4 newVector;
-
-   /*
-   //TODO optimise here (remainder)
-   if (direction.l2_norm() != 0 && remainder(angle, 2*M_PI) != 0) {
-      cosAngle = cosf(angle*0.5);
-      s = 2/sqrtf(direction.get_x()*direction.get_x() + direction.get_y()*direction.get_y() + direction.get_z()*direction.get_z() + cosAngle*cosAngle);
-
-      SquareMatrix quaternionMatrix(9, {1-s*(direction.get_y()*direction.get_y() + direction.get_z()*direction.get_z(),
-                                          s*(direction.get_x()*direction.get_y() - cosAngle))})
-   }
-
-    */
-   return Float4();
 }

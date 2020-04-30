@@ -6,7 +6,7 @@ Matrix::Matrix(unsigned int rows, unsigned int columns, const initializer_list<f
    data_ = FloatArray(rows, columns, data);
 }
 
-Matrix::Matrix(unsigned int rows, unsigned int columns, float*& data) {
+Matrix::Matrix(unsigned int rows, unsigned int columns, float* data) {
    data_ = FloatArray(rows, columns, data);
 }
 
@@ -42,11 +42,11 @@ Matrix &Matrix::operator=(Matrix && matrix) {
 
 //TODO fix repeated functions
 Matrix Matrix::operator+(const Matrix &matrix) noexcept(false) {
-   float* newData = new float[get_rows() * get_columns()];
+   std::unique_ptr<float> newData(new float[get_rows() * get_columns()]);
 
    if (get_rows() == matrix.get_rows() && get_columns() == matrix.get_columns()) {
       for (int i = 0; i < get_rows() * get_columns(); ++i) {
-         newData[i] = data_[i] + matrix.get_data()[i];
+         newData.get()[i] = data_[i] + matrix.get_data()[i];
       }
    } else {
       string s = "Exception: dimensions do not correspond.";
@@ -57,7 +57,7 @@ Matrix Matrix::operator+(const Matrix &matrix) noexcept(false) {
       throw ExceptionNotifier(s.c_str());
    }
 
-   return Matrix(get_rows(), get_columns(), newData);
+   return Matrix(get_rows(), get_columns(), newData.release());
 }
 
 Matrix &Matrix::operator+=(const Matrix &matrix) noexcept(false) {
@@ -78,11 +78,11 @@ Matrix &Matrix::operator+=(const Matrix &matrix) noexcept(false) {
 }
 
 Matrix Matrix::operator-(const Matrix &matrix) noexcept(false) {
-   float* newData = new float[get_rows() * get_columns()];
+   std::unique_ptr<float> newData(new float[get_rows() * get_columns()]);
 
    if (get_rows() == matrix.get_rows() && get_columns() == matrix.get_columns()) {
       for (int i = 0; i < get_rows() * get_columns(); ++i) {
-         newData[i] = data_[i] - matrix.get_data()[i];
+         newData.get()[i] = data_[i] - matrix.get_data()[i];
       }
    } else {
       string s = "Exception: dimensions do not correspond.";
@@ -93,7 +93,7 @@ Matrix Matrix::operator-(const Matrix &matrix) noexcept(false) {
       throw ExceptionNotifier(s.c_str());
    }
 
-   return Matrix(get_rows(), get_columns(), newData);
+   return Matrix(get_rows(), get_columns(), newData.release());
 }
 
 Matrix &Matrix::operator-=(const Matrix &matrix) noexcept(false) {
@@ -114,13 +114,13 @@ Matrix &Matrix::operator-=(const Matrix &matrix) noexcept(false) {
 }
 
 Matrix Matrix::operator*(float scalar) {
-   float* newData = new float[get_rows() * get_columns()];
+   unique_ptr<float> newData(new float[get_rows() * get_columns()]);
 
    for (int i = 0; i < get_rows() * get_columns(); ++i) {
-      newData[i] = data_[i] * scalar;
+      newData.get()[i] = data_[i] * scalar;
    }
 
-   return Matrix(get_rows(), get_columns(), newData);
+   return Matrix(get_rows(), get_columns(), newData.release());
 }
 
 Matrix& Matrix::operator*=(float scalar) {
@@ -132,14 +132,14 @@ Matrix& Matrix::operator*=(float scalar) {
 }
 
 Matrix Matrix::operator*(Matrix &matrix) noexcept(false) {
-   float* newData = new float[get_rows() * matrix.get_columns()];
+   std::unique_ptr<float> newData(new float[get_rows() * matrix.get_columns()]);
 
    if (get_columns() == matrix.get_rows()) {
 
       for (unsigned int r = 0; r < get_rows(); ++r) {
          for (unsigned int c = 0; c < get_columns(); ++c) {
             for (unsigned int i = 0; i < get_columns(); ++i) {
-               newData[r * get_columns() + c] += data_[r * get_columns() + i] * matrix.get_data()[get_columns() * i + c];
+               newData.get()[r * get_columns() + c] += data_[r * get_columns() + i] * matrix.get_data()[get_columns() * i + c];
             }
          }
       }
@@ -150,37 +150,37 @@ Matrix Matrix::operator*(Matrix &matrix) noexcept(false) {
       throw ExceptionNotifier(s.c_str());
    }
 
-   return Matrix(get_rows(), matrix.get_columns(), newData);
+   return Matrix(get_rows(), matrix.get_columns(), newData.release());
 }
 
 Matrix Matrix::transpose(const Matrix &matrix) {
-   float* newData = new float[matrix.get_rows() * matrix.get_columns()];
+   unique_ptr<float> newData(new float[matrix.get_rows() * matrix.get_columns()]);
 
    for (int i = 0; i < matrix.get_columns(); ++i) {
       for (int j = 0; j < matrix.get_rows(); ++j) {
          //TODO check here
-         newData[i* matrix.get_rows() + j] = matrix.get_data()[j * matrix.get_columns() + i];
+         newData.get()[i* matrix.get_rows() + j] = matrix.get_data()[j * matrix.get_columns() + i];
       }
    }
 
-   return Matrix(matrix.get_columns(), matrix.get_rows(), newData);
+   return Matrix(matrix.get_columns(), matrix.get_rows(), newData.release());
 }
 
 Matrix Matrix::create_submatrix(const Matrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
-   auto* newData = new float[(matrix.get_rows() - 1) * (matrix.get_columns() - 1)];
+   std::unique_ptr<float> newData(new float[(matrix.get_rows() - 1) * (matrix.get_columns() - 1)]);
 
    unsigned int index = 0;
    for (int i = 0; i < matrix.get_rows(); ++i) {
       if (i != rowIndex) {
          for (int j = 0; j < matrix.get_columns(); ++j) {
             if (j != columnIndex) {
-               newData[index++] = matrix.get_array()[i * matrix.get_columns() + j];
+               newData.get()[index++] = matrix.get_array()[i * matrix.get_columns() + j];
             }
          }
       }
    }
 
-   return Matrix(matrix.get_rows() - 1, matrix.get_columns() - 1, newData);
+   return Matrix(matrix.get_rows() - 1, matrix.get_columns() - 1, newData.release());
 }
 
 FloatVector Matrix::multiply_vector(const FloatVector& vector) const noexcept(false) {
@@ -200,8 +200,8 @@ FloatVector Matrix::multiply_vector(const FloatVector& vector) const noexcept(fa
       return move(newData);
    } else {
       string s = "Exception NO_MATCH_LENGTH: matrix and vector_ do not have correct size_. ";
-      s.append("Matrix columns_: ").append(std::to_string(get_columns())).append("!= Vector size_: ").append(std::to_string(
-              vector.get_size())).append("\n");
+      s.append("Matrix columns_: ").append(std::to_string(get_columns())).append("!= Vector size_: ")
+         .append(std::to_string(vector.get_size())).append("\n");
 
       throw ExceptionNotifier(s.c_str());
    }

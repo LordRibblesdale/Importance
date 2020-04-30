@@ -7,7 +7,7 @@
 class SquareMatrix : public Matrix {
 public:
    SquareMatrix(unsigned int dimension, const initializer_list<float>& data);
-   SquareMatrix(unsigned int dimension, float*& data);
+   SquareMatrix(unsigned int dimension, float* data);
    SquareMatrix(const SquareMatrix& matrix);
    SquareMatrix(SquareMatrix&& matrix);
    ~SquareMatrix();
@@ -22,6 +22,8 @@ public:
    static float calculate_cofactor(const SquareMatrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
    void invert();
+
+   void scaleMatrix(float scaleX, float scaleY, float scaleZ);
 
    static SquareMatrix calculate_inverse(const SquareMatrix& matrix);
 

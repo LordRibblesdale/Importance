@@ -10,7 +10,7 @@ protected:
 
 public:
    Matrix(unsigned int rows, unsigned int columns, const initializer_list<float>& data);
-   Matrix(unsigned int rows, unsigned int columns, float*& data);
+   Matrix(unsigned int rows, unsigned int columns, float* data);
    Matrix(const Matrix& matrix);
    Matrix(Matrix&& matrix);
    ~Matrix();

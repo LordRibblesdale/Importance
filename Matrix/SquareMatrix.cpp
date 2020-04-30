@@ -1,11 +1,10 @@
 #include "SquareMatrix.h"
 #include "memory"
-#include <cmath>
 #include <iostream>
 
 SquareMatrix::SquareMatrix(unsigned int dimension, const initializer_list<float>& data) : Matrix(dimension, dimension, data) {}
 
-SquareMatrix::SquareMatrix(unsigned int dimension, float*& array) : Matrix(dimension, dimension, array) {}
+SquareMatrix::SquareMatrix(unsigned int dimension, float* array) : Matrix(dimension, dimension, std::move(array)) {}
 
 SquareMatrix::SquareMatrix(const SquareMatrix &matrix) : Matrix(matrix) {}
 
@@ -97,19 +96,27 @@ void SquareMatrix::invert() {
 SquareMatrix SquareMatrix::calculate_inverse(const SquareMatrix &matrix) {
    unsigned int dimension = matrix.get_dimension();
    float determinant = matrix.calculate_determinant();
-   auto* newData = new float[dimension*dimension];
+   std::unique_ptr<float> newData(new float[dimension*dimension]);
 
    if (determinant != 0) {
       float scalar = abs(1 / determinant);
 
       for (unsigned int i = 0; i < dimension; ++i) {
          for (unsigned int j = 0; j < dimension; ++j) {
-            newData[i*dimension + j] = scalar * ((i+j) % 2 == 0 ? 1 : -1) * calculate_cofactor(matrix, j, i);
+            newData.get()[i*dimension + j] = scalar * ((i+j) % 2 == 0 ? 1 : -1) * calculate_cofactor(matrix, j, i);
          }
       }
    }
 
-   return SquareMatrix(dimension, newData);
+   return SquareMatrix(dimension, newData.release());
+}
+
+//TODO create new classes Matrix2, Matrix3 and Matrix4
+void SquareMatrix::scaleMatrix(float scaleX, float scaleY, float scaleZ) {
+   //TODO automise here
+   data_.get_array().get()[0] *= scaleX;
+   data_.get_array().get()[get_dimension()] *= scaleY;
+   data_.get_array().get()[get_dimension()*2] *= scaleZ;
 }
 
 
