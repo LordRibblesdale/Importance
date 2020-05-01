@@ -5,7 +5,10 @@
 #include <utility>
 
 #include "../Vector/Float3.h"
+#include "../Model/Triangle.h"
 #include "Box.h"
+
+const float EPSILON = 0.00001;
 
 struct Intersection {
 private:
@@ -24,13 +27,34 @@ public:
    }
 };
 
+struct TriangleIntersection : public Intersection {
+private:
+   std::unique_ptr<Float3> barycentricCoordinates_;
+
+public:
+   TriangleIntersection(bool hasIntersected, Float3* intersectedPoint, Float3* barycentricCoordinates) : Intersection(hasIntersected, intersectedPoint) {
+      barycentricCoordinates_ = std::move(std::unique_ptr<Float3>(barycentricCoordinates));
+   }
+
+   const Float3& getBarycentricCoordinates() const {
+      return *barycentricCoordinates_;
+   }
+};
+
 class Ray {
    Float3 origin_;
    Float3 direction_;
 
    Ray(Float3& origin, Float3& direction);
 
-   const bool isIntersecting(const Box& box);
+   bool isIntersecting(const Box& box) const;
+
+   TriangleIntersection& getTriangleIntersection(const Triangle& triangle) const;
+
+public:
+   const Float3 &getOrigin() const;
+
+   const Float3 &getDirection() const;
 };
 
 

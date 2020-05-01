@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
     glfwSetWindowSizeCallback(window, function);
 
     if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-       std::cout << "Error LOADING GL: libraries cannot be called";
+       std::cout << "Error LOADING_GL: libraries cannot be called";
        glfwTerminate();
 
        return -1;

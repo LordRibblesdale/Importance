@@ -15,11 +15,14 @@ public:
    Float3& operator=(Float3&& point);
 
    Float3 operator+(const Float3& point);
+   friend Float3 operator+(const Float3& point, const Float3& point2);
    Float3 operator-(const Float3& point);
+   friend Float3 operator-(const Float3& point, const Float3& point2);
    Float3& operator+=(const Float3& point);
    Float3& operator-=(const Float3& point);
 
    Float3 operator*(const float& scalar);
+   friend Float3 operator*(const float& scalar, const Float3& point2);
    Float3& operator*=(const float& scalar);
 
    float dot_product(const Float3& point) const;

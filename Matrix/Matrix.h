@@ -9,7 +9,7 @@ protected:
    FloatArray data_ = FloatArray(0, 0, {});
 
 public:
-   Matrix(unsigned int rows, unsigned int columns, const initializer_list<float>& data);
+   Matrix(unsigned int rows, unsigned int columns, const std::initializer_list<float>& data);
    Matrix(unsigned int rows, unsigned int columns, float* data);
    Matrix(const Matrix& matrix);
    Matrix(Matrix&& matrix);
@@ -51,7 +51,7 @@ public:
 
    void delete_matrix();
 
-   string to_string() const;
+   std::string to_string() const;
 };
 
 #endif //MATRIX_H

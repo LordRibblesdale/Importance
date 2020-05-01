@@ -2,7 +2,7 @@
 #include "memory"
 #include <iostream>
 
-SquareMatrix::SquareMatrix(unsigned int dimension, const initializer_list<float>& data) : Matrix(dimension, dimension, data) {}
+SquareMatrix::SquareMatrix(unsigned int dimension, const std::initializer_list<float>& data) : Matrix(dimension, dimension, data) {}
 
 SquareMatrix::SquareMatrix(unsigned int dimension, float* array) : Matrix(dimension, dimension, std::move(array)) {}
 
@@ -25,13 +25,13 @@ SquareMatrix SquareMatrix::transpose(const SquareMatrix &matrix) {
    Matrix transposed = Matrix::transpose(matrix);
 
    //TODO check cast
-   return SquareMatrix(move(*static_cast<SquareMatrix*>(&transposed)));
+   return SquareMatrix(std::move(*static_cast<SquareMatrix*>(&transposed)));
 }
 
 SquareMatrix SquareMatrix::create_submatrix(const SquareMatrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
    Matrix subMatrix = Matrix::create_submatrix(matrix, rowIndex, columnIndex);
 
-   return SquareMatrix(move(*static_cast<SquareMatrix*>(&subMatrix)));
+   return SquareMatrix(std::move(*static_cast<SquareMatrix*>(&subMatrix)));
 }
 
 float SquareMatrix::calculate_determinant() const {

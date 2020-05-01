@@ -6,7 +6,7 @@
 
 class SquareMatrix : public Matrix {
 public:
-   SquareMatrix(unsigned int dimension, const initializer_list<float>& data);
+   SquareMatrix(unsigned int dimension, const std::initializer_list<float>& data);
    SquareMatrix(unsigned int dimension, float* data);
    SquareMatrix(const SquareMatrix& matrix);
    SquareMatrix(SquareMatrix&& matrix);

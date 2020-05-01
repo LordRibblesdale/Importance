@@ -7,7 +7,7 @@ Float3 axisXRotateVertex3(const Float3 &vector, const float& angleX) {
    float cosAngle = cosf(angleX);
    float sinAngle = sinf(angleX);
    SquareMatrix rotation(9, {1, 0, 0, 0, cosAngle, -sinAngle, 0, sinAngle, cosAngle});
-   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+   FloatVector rotatedVertex(std::move(rotation.multiply_vector(vector)));
 
    return Float3(*static_cast<Float3*>(&rotatedVertex));
 }
@@ -16,7 +16,7 @@ Float3 axisYRotateVertex3(const Float3 &vector, const float& angleY) {
    float cosAngle = cosf(angleY);
    float sinAngle = sinf(angleY);
    SquareMatrix rotation(9, {cosAngle, 0, sinAngle, 0, 1, 0, -sinAngle, 0, cosAngle});
-   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+   FloatVector rotatedVertex(std::move(rotation.multiply_vector(vector)));
 
    return Float3(*static_cast<Float3*>(&rotatedVertex));
 }
@@ -25,7 +25,7 @@ Float3 axisZRotateVertex3(const Float3 &vector, const float& angleZ) {
    float cosAngle = cosf(angleZ);
    float sinAngle = sinf(angleZ);
    SquareMatrix rotation(9, {cosAngle, -sinAngle, 0, sinAngle, cosAngle, 0, 0, 0, 1});
-   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+   FloatVector rotatedVertex(std::move(rotation.multiply_vector(vector)));
 
    return Float3(*static_cast<Float3*>(&rotatedVertex));
 }

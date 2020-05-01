@@ -3,7 +3,7 @@
 
 Ray::Ray(Float3 &origin, Float3 &direction) : origin_(std::move(origin)), direction_(std::move(direction)) {}
 
-const bool Ray::isIntersecting(const Box &box) {
+bool Ray::isIntersecting(const Box &box) const {
    float tNear = std::numeric_limits<float>::min();
    float tFar = std::numeric_limits<float>::max();
 
@@ -34,4 +34,40 @@ const bool Ray::isIntersecting(const Box &box) {
    }
 
    return true;
+}
+
+TriangleIntersection& Ray::getTriangleIntersection(const Triangle &triangle) const {
+   std::unique_ptr<TriangleIntersection> intersection = std::make_unique<TriangleIntersection>(false, nullptr, nullptr);
+
+   //TODO optimise memory?
+   Float3 q(direction_.cross_product(triangle.getPoint2() - triangle.getPoint0()));
+   float determinant = q.dot_product(triangle.getPoint1());
+
+   if (determinant != 0 || (determinant > -EPSILON && determinant < EPSILON)) {
+      Float3 s(origin_ - triangle.getPoint0());
+      float a = 1 / determinant;
+
+      float u = a*(q.dot_product(s));
+
+      if (u >= 0) {
+         Float3 r(s.cross_product(triangle.getPoint1() - triangle.getPoint0()));
+         float v = a*(r.dot_product(direction_));
+
+         if (v >= 0 && (u+v) <= 1) {
+            float t = a*(r.dot_product(triangle.getPoint2() - triangle.getPoint0()));
+
+            intersection = std::make_unique<TriangleIntersection>(true, new Float3(origin_ + t*direction_), new Float3(t, u, v));
+         }
+       }
+   }
+
+   return *intersection.release();
+}
+
+const Float3 &Ray::getOrigin() const {
+   return origin_;
+}
+
+const Float3 &Ray::getDirection() const {
+   return direction_;
 }

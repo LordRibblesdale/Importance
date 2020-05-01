@@ -39,6 +39,10 @@ Float3 Float3::operator+(const Float3 &point) {
    return Float3(get_x() + point.get_x(), get_y() + point.get_y(), get_z() + point.get_z());
 }
 
+Float3 operator+(const Float3 &point, const Float3 &point2) {
+   return Float3(point.get_x() + point2.get_x(), point.get_y() + point2.get_y(), point.get_z() + point.get_z());
+}
+
 Float3& Float3::operator+=(const Float3 &point) {
    set_x(get_x() + point.get_x());
    set_y(get_y() + point.get_y());
@@ -51,6 +55,10 @@ Float3 Float3::operator-(const Float3 &point) {
    return Float3(get_x() - point.get_x(), get_y() - point.get_y(), get_z() - point.get_z());
 }
 
+Float3 operator-(const Float3 &point, const Float3 &point2) {
+   return Float3(point.get_x() - point2.get_x(), point.get_y() - point2.get_y(), point.get_z() - point.get_z());
+}
+
 Float3& Float3::operator-=(const Float3 &point) {
    set_x(get_x() - point.get_x());
    set_y(get_y() - point.get_y());
@@ -61,6 +69,10 @@ Float3& Float3::operator-=(const Float3 &point) {
 
 Float3 Float3::operator*(const float &scalar) {
    return Float3(scalar * get_x(), scalar * get_y(), scalar * get_z());
+}
+
+Float3 operator*(const float& scalar, const Float3 &point) {
+   return Float3(point.get_x()*scalar, point.get_y()*scalar, point.get_z()*scalar);
 }
 
 Float3& Float3::operator*=(const float &scalar) {
