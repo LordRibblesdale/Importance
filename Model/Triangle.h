@@ -5,12 +5,14 @@
 #include "../Vector/Float3.h"
 
 class Triangle {
+   //TODO check color add here or directly reading a XML file
+   //TODO add normal reading via interpolation
    std::unique_ptr<Float3[]> points;
 
 public:
    Triangle(Float3& p0, Float3& p1, Float3& p2);
 
-   const Float3& getPoint(float u, float v) const;
+   Float3 getPoint(float u, float v) const;
 
    const Float3& getPoint0() const;
    const Float3& getPoint1() const;

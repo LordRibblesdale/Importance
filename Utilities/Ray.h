@@ -6,7 +6,7 @@
 
 #include "../Vector/Float3.h"
 #include "../Model/Triangle.h"
-#include "Box.h"
+#include "../Model/Box.h"
 
 const float EPSILON = 0.00001;
 
@@ -45,15 +45,17 @@ class Ray {
    Float3 origin_;
    Float3 direction_;
 
+public:
    Ray(Float3& origin, Float3& direction);
 
    bool isIntersecting(const Box& box) const;
 
    TriangleIntersection& getTriangleIntersection(const Triangle& triangle) const;
 
-public:
-   const Float3 &getOrigin() const;
+   Ray getReflectionOn(const Triangle& triangle, const TriangleIntersection& intersection);
+   Ray getRefractionOn(const Triangle& triangle, const TriangleIntersection& intersection);
 
+   const Float3 &getOrigin() const;
    const Float3 &getDirection() const;
 };
 

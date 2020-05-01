@@ -23,7 +23,7 @@ const Float3& Triangle::getPoint2() const {
    return points.get()[2];
 }
 
-const Float3& Triangle::getPoint(float u, float v) const {
+Float3 Triangle::getPoint(float u, float v) const {
    //TODO check warning here
    return Float3((1-u-v)*points[0] + u*points[1] + v*points[2]);
 }

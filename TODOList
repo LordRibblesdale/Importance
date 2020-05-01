@@ -5,5 +5,7 @@
 -> Make all stream operators "friend" and add all remaining friend operators
 -> Check "move" operations (if needed or not)
 
+-> ! Implement XML reading-writing system
+
 -> Check all pointers and deletes (use of unique_ptr?) - DONE
 -> Add rotations, translations - DONE
