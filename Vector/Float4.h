@@ -10,6 +10,7 @@ public:
    Float4(const float& x, const float& y, const float& z, const float& w);
    Float4(const Float4& point);
    Float4(Float4&& point);
+   Float4(const Float3& float3, bool isPoint);
    ~Float4();
 
    Float4& operator=(const Float4& point);
@@ -27,7 +28,7 @@ public:
    //Float4 cross_product(const Float4& point) const;
 
    float l2_norm() const;
-   Float4 normalize();
+   void normalize();
 
    float get_x() const;
    float get_y() const;
@@ -38,6 +39,16 @@ public:
    void set_y(const float& y);
    void set_z(const float& z);
    void set_w(const float& w);
+
+   Float3 getProjectionQuotient() {
+      if (vector_.get()[3] != 0) {
+         float inv = 1/get_w();
+
+         return Float3(get_x()*inv, get_y()*inv, get_z()*inv);
+      } else {
+         throw vector_.get()[3];
+      }
+   }
 };
 
 #endif //FLOAT4_H

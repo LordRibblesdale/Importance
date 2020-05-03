@@ -36,7 +36,7 @@ public:
     Float2 cross_product() const;
 
     float l2_norm() const;
-    Float2 normalize();
+    void normalize();
 
     float get_x() const;
     float get_y() const;
@@ -46,9 +46,10 @@ public:
 
     //Rotation functions
     static Float2 axisRotateVertex2(const Float2& vector, const float& angle);
+
+    friend ostream& operator<<(ostream& stream, const Float2& point);
 };
 
-ostream& operator<<(ostream& stream, const Float2& point);
 
 Float2 operator*(const float& scalar, const Float2& point);
 

@@ -14,6 +14,12 @@ Float4::Float4(Float4 &&point) : FloatVector(4, {point.get_x(), point.get_y(), p
    point.set_w(0);
 }
 
+Float4::Float4(const Float3& float3, bool isPoint) : FloatVector(4, {float3.get_x(), float3.get_y(), float3.get_z()}) {
+   if (isPoint) {
+      set_w(1);
+   }
+}
+
 Float4::~Float4() {}
 
 Float4 &Float4::operator=(const Float4 &point) {
@@ -94,7 +100,7 @@ float Float4::l2_norm() const {
    return sqrtf(get_x() * get_x() + get_y() * get_y() + get_z() * get_z() + get_w() * get_w());
 }
 
-Float4 Float4::normalize() {
+void Float4::normalize() {
    float norm = l2_norm();
    if (norm != 0) {
       float n = 1/norm;
@@ -103,8 +109,6 @@ Float4 Float4::normalize() {
       set_z(get_z()*n);
       set_w(get_w()*n);
    }
-
-   return *this;
 }
 
 float Float4::get_x() const {

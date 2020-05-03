@@ -29,7 +29,7 @@ public:
    Float3 cross_product(const Float3& point) const;
 
    float l2_norm() const;
-   Float3 normalize();
+   void normalize();
 
    float get_x() const;
    float get_y() const;

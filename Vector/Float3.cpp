@@ -97,7 +97,7 @@ float Float3::l2_norm() const {
    return sqrtf(get_x() * get_x() + get_y() * get_y() + get_z() * get_z());
 }
 
-Float3 Float3::normalize() {
+void Float3::normalize() {
    float norm = l2_norm();
     if (norm != 0) {
        float n = 1/norm;
@@ -105,8 +105,6 @@ Float3 Float3::normalize() {
        set_y(get_y()*n);
        set_z(get_z()*n);
     }
-
-    return *this;
 }
 
 float Float3::get_x() const {

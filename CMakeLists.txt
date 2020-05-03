@@ -10,7 +10,7 @@ file(GLOB_RECURSE ModelFolder "Model/*.cpp" "Model/*.h")
 file(GLOB_RECURSE ExceptionFolder "Exception/*.h")
 file(GLOB_RECURSE MainFile "Main.cpp")
 
-file(GLOB_RECURSE GladLibraries "Graphics/glad/*.h" "Graphics/glad/*.c")
+file(GLOB_RECURSE GladLibraries "Graphics/*.h" "Graphics/*.c")
 file(GLOB_RECURSE GLFWLibraries "Graphics/glfw-3.3.2.bin.WIN64/include/GLFW")
 
 add_executable(${PROJECT_NAME}

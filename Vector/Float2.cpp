@@ -88,7 +88,7 @@ float Float2::l2_norm() const {
    return sqrtf(get_x() * get_x() + get_y() * get_y());
 }
 
-Float2 Float2::normalize() {
+void Float2::normalize() {
    float norm = l2_norm();
 
    if (norm != 0) {
@@ -96,8 +96,6 @@ Float2 Float2::normalize() {
       set_x(get_x()*n);
       set_y(get_y()*n);
    }
-
-   return *this;
 }
 
 float Float2::get_x() const {
