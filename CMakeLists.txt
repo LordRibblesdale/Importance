@@ -21,7 +21,7 @@ add_executable(${PROJECT_NAME}
         ${ModelFolder}
         ${GladLibraries}
         ${GLFWLibraries}
-        ${MainFile})
+        ${MainFile} Matrix/StandardMatrix.cpp)
 
 target_include_directories(${PROJECT_NAME} PRIVATE "Graphics/glad/include/glad")
 target_include_directories(${PROJECT_NAME} PRIVATE "Graphics/glad/include/KHR")
