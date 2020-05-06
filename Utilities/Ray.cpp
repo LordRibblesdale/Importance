@@ -9,6 +9,7 @@ bool Ray::isIntersecting(const Box &box) const {
 
    for (int i = 0; i < 3; ++i) {
       float inverseDirection = 1/direction_.get_vector().get()[i];
+      //TODO     -V- check this minus sign (tFar < 0?)
       float t1 = -(box.getInitialPoint().get_vector().get()[i] - origin_.get_vector().get()[i])*inverseDirection;
       float t2 = -(box.getFinalPoint().get_vector().get()[i] - origin_.get_vector().get()[i])*inverseDirection;
 
@@ -40,21 +41,21 @@ TriangleIntersection& Ray::getTriangleIntersection(const Triangle &triangle) con
    std::unique_ptr<TriangleIntersection> intersection = std::make_unique<TriangleIntersection>(false, nullptr, nullptr);
 
    //TODO optimise memory?
-   Float3 q(direction_.cross_product(triangle.getPoint2() - triangle.getPoint0()));
-   float determinant = q.dot_product(triangle.getPoint1());
+   Float3 q(direction_.crossProduct(triangle.getPoint2() - triangle.getPoint0()));
+   float determinant = q.dotProduct(triangle.getPoint1());
 
    if (determinant != 0 || (determinant > -EPSILON && determinant < EPSILON)) {
       Float3 s(origin_ - triangle.getPoint0());
       float a = 1 / determinant;
 
-      float u = a*(q.dot_product(s));
+      float u = a*(q.dotProduct(s));
 
       if (u >= 0) {
-         Float3 r(s.cross_product(triangle.getPoint1() - triangle.getPoint0()));
-         float v = a*(r.dot_product(direction_));
+         Float3 r(s.crossProduct(triangle.getPoint1() - triangle.getPoint0()));
+         float v = a*(r.dotProduct(direction_));
 
          if (v >= 0 && (u+v) <= 1) {
-            float t = a*(r.dot_product(triangle.getPoint2() - triangle.getPoint0()));
+            float t = a*(r.dotProduct(triangle.getPoint2() - triangle.getPoint0()));
 
             intersection = std::make_unique<TriangleIntersection>(true, new Float3(origin_ + t*direction_), new Float3(t, u, v));
          }

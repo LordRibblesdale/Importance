@@ -31,7 +31,7 @@ public:
 
    FloatVector(FloatVector&& floatVector) {
       //TODO test const_cast here
-      //USED in: Matrix::multiply_vector()
+      //USED in: Matrix::multiplyVector()
       vector_ = move(std::unique_ptr<float>((const_cast<std::unique_ptr<float>&>(floatVector.get_vector())).release()));
       size_ = floatVector.get_size();
    }

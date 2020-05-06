@@ -25,15 +25,15 @@ public:
 
    FloatArray& operator=(FloatArray&& floatArray);
 
-   inline const std::unique_ptr<float>& get_array() const {
+   inline const std::unique_ptr<float>& getArray() const {
       return array_;
    }
 
-   inline unsigned int get_rows() const {
+   inline unsigned int getRows() const {
       return rows_;
    }
 
-   inline unsigned int get_columns() const {
+   inline unsigned int getColumns() const {
       return columns_;
    }
 

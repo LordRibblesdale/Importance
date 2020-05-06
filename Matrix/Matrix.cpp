@@ -11,65 +11,67 @@ Matrix::Matrix(unsigned int rows, unsigned int columns, float* data) {
 }
 
 Matrix::Matrix(const Matrix &matrix) {
-   data_ = FloatArray(matrix.get_data());
+   data_ = FloatArray(matrix.getData());
 }
 
 Matrix::Matrix(Matrix &&matrix) {
-   data_ = FloatArray(move(matrix.get_data()));
+   data_ = FloatArray(move(matrix.getData()));
 
-   matrix.delete_matrix();
+   matrix.deleteMatrix();
 }
 
 Matrix::~Matrix() {
-   for (int i = 0; i < get_rows() * get_columns(); ++i) {
+   for (int i = 0; i < getRows() * getColumns(); ++i) {
       data_[i] = 0;
    }
 }
 
 Matrix &Matrix::operator=(const Matrix &matrix) {
-   data_ = FloatArray(matrix.get_data());
+   data_ = FloatArray(matrix.getData());
 
    return *this;
 }
 
 Matrix &Matrix::operator=(Matrix && matrix) {
-   data_ = FloatArray(matrix.get_data());
+   data_ = FloatArray(matrix.getData());
 
-   matrix.delete_matrix();
+   matrix.deleteMatrix();
 
    return *this;
 }
 
 //TODO fix repeated functions
 Matrix Matrix::operator+(const Matrix &matrix) noexcept(false) {
-   std::unique_ptr<float> newData(new float[get_rows() * get_columns()]);
+   std::unique_ptr<float> newData(new float[getRows() * getColumns()]);
 
-   if (get_rows() == matrix.get_rows() && get_columns() == matrix.get_columns()) {
-      for (int i = 0; i < get_rows() * get_columns(); ++i) {
-         newData.get()[i] = data_[i] + matrix.get_data()[i];
+   if (getRows() == matrix.getRows() && getColumns() == matrix.getColumns()) {
+      for (int i = 0; i < getRows() * getColumns(); ++i) {
+         newData.get()[i] = data_[i] + matrix.getData()[i];
       }
    } else {
       string s = "Exception: dimensions do not correspond.";
-      s.append("(").append(std::to_string(get_rows())).append(", ").append(std::to_string(get_columns())).append(") ")
-         .append(" != (").append(std::to_string(matrix.get_rows())).append(", ").append(std::to_string(matrix.get_columns())).append(")\n");
-      // (row, columns_) != (matrix.get_rows(), matrix.get_columns()
+      s.append("(").append(std::to_string(getRows())).append(", ").append(std::to_string(getColumns())).append(") ")
+         .append(" != (").append(std::to_string(matrix.getRows())).append(", ").append(std::to_string(
+                      matrix.getColumns())).append(")\n");
+      // (row, columns_) != (matrix.getRows(), matrix.getColumns()
 
       throw ExceptionNotifier(s.c_str());
    }
 
-   return Matrix(get_rows(), get_columns(), newData.release());
+   return Matrix(getRows(), getColumns(), newData.release());
 }
 
 Matrix &Matrix::operator+=(const Matrix &matrix) noexcept(false) {
-   if (get_rows() == matrix.get_rows() && get_columns() == matrix.get_columns()) {
-      for (int i = 0; i < get_rows() * get_columns(); ++i) {
-         data_[i] += matrix.get_data()[i];
+   if (getRows() == matrix.getRows() && getColumns() == matrix.getColumns()) {
+      for (int i = 0; i < getRows() * getColumns(); ++i) {
+         data_[i] += matrix.getData()[i];
       }
    } else {
       string s = "Exception: dimensions do not correspond.";
-      s.append("(").append(std::to_string(get_rows())).append(", ").append(std::to_string(get_columns())).append(") ")
-              .append(" != (").append(std::to_string(matrix.get_rows())).append(", ").append(std::to_string(matrix.get_columns())).append(")\n");
-      // (row, columns_) != (matrix.get_rows(), matrix.get_columns()
+      s.append("(").append(std::to_string(getRows())).append(", ").append(std::to_string(getColumns())).append(") ")
+              .append(" != (").append(std::to_string(matrix.getRows())).append(", ").append(std::to_string(
+                      matrix.getColumns())).append(")\n");
+      // (row, columns_) != (matrix.getRows(), matrix.getColumns()
 
       throw ExceptionNotifier(s.c_str());
    }
@@ -78,34 +80,36 @@ Matrix &Matrix::operator+=(const Matrix &matrix) noexcept(false) {
 }
 
 Matrix Matrix::operator-(const Matrix &matrix) noexcept(false) {
-   std::unique_ptr<float> newData(new float[get_rows() * get_columns()]);
+   std::unique_ptr<float> newData(new float[getRows() * getColumns()]);
 
-   if (get_rows() == matrix.get_rows() && get_columns() == matrix.get_columns()) {
-      for (int i = 0; i < get_rows() * get_columns(); ++i) {
-         newData.get()[i] = data_[i] - matrix.get_data()[i];
+   if (getRows() == matrix.getRows() && getColumns() == matrix.getColumns()) {
+      for (int i = 0; i < getRows() * getColumns(); ++i) {
+         newData.get()[i] = data_[i] - matrix.getData()[i];
       }
    } else {
       string s = "Exception: dimensions do not correspond.";
-      s.append("(").append(std::to_string(get_rows())).append(", ").append(std::to_string(get_columns())).append(") ")
-              .append(" != (").append(std::to_string(matrix.get_rows())).append(", ").append(std::to_string(matrix.get_columns())).append(")\n");
-      // (row, columns_) != (matrix.get_rows(), matrix.get_columns()
+      s.append("(").append(std::to_string(getRows())).append(", ").append(std::to_string(getColumns())).append(") ")
+              .append(" != (").append(std::to_string(matrix.getRows())).append(", ").append(std::to_string(
+                      matrix.getColumns())).append(")\n");
+      // (row, columns_) != (matrix.getRows(), matrix.getColumns()
 
       throw ExceptionNotifier(s.c_str());
    }
 
-   return Matrix(get_rows(), get_columns(), newData.release());
+   return Matrix(getRows(), getColumns(), newData.release());
 }
 
 Matrix &Matrix::operator-=(const Matrix &matrix) noexcept(false) {
-   if (get_rows() == matrix.get_rows() && get_columns() == matrix.get_columns()) {
-      for (int i = 0; i < get_rows() * get_columns(); ++i) {
-         data_[i] -= matrix.get_data()[i];
+   if (getRows() == matrix.getRows() && getColumns() == matrix.getColumns()) {
+      for (int i = 0; i < getRows() * getColumns(); ++i) {
+         data_[i] -= matrix.getData()[i];
       }
    } else {
       string s = "Exception COPY_CONSTRUCTOR: dimensions do not correspond. ";
-      s.append("(").append(std::to_string(get_rows())).append(", ").append(std::to_string(get_columns())).append(") ")
-              .append(" != (").append(std::to_string(matrix.get_rows())).append(", ").append(std::to_string(matrix.get_columns())).append(")\n");
-      // (row, columns_) != (matrix.get_rows(), matrix.get_columns()
+      s.append("(").append(std::to_string(getRows())).append(", ").append(std::to_string(getColumns())).append(") ")
+              .append(" != (").append(std::to_string(matrix.getRows())).append(", ").append(std::to_string(
+                      matrix.getColumns())).append(")\n");
+      // (row, columns_) != (matrix.getRows(), matrix.getColumns()
 
       throw ExceptionNotifier(s.c_str());
    }
@@ -114,17 +118,17 @@ Matrix &Matrix::operator-=(const Matrix &matrix) noexcept(false) {
 }
 
 Matrix Matrix::operator*(float scalar) {
-   unique_ptr<float> newData(new float[get_rows() * get_columns()]);
+   unique_ptr<float> newData(new float[getRows() * getColumns()]);
 
-   for (int i = 0; i < get_rows() * get_columns(); ++i) {
+   for (int i = 0; i < getRows() * getColumns(); ++i) {
       newData.get()[i] = data_[i] * scalar;
    }
 
-   return Matrix(get_rows(), get_columns(), newData.release());
+   return Matrix(getRows(), getColumns(), newData.release());
 }
 
 Matrix& Matrix::operator*=(float scalar) {
-   for (int i = 0; i < get_rows() * get_columns(); ++i) {
+   for (int i = 0; i < getRows() * getColumns(); ++i) {
       data_[i] *= scalar;
    }
 
@@ -132,66 +136,66 @@ Matrix& Matrix::operator*=(float scalar) {
 }
 
 Matrix Matrix::operator*(Matrix &matrix) noexcept(false) {
-   std::unique_ptr<float> newData(new float[get_rows() * matrix.get_columns()]);
+   std::unique_ptr<float> newData(new float[getRows() * matrix.getColumns()]);
 
-   if (get_columns() == matrix.get_rows()) {
+   if (getColumns() == matrix.getRows()) {
 
-      for (unsigned int r = 0; r < get_rows(); ++r) {
-         for (unsigned int c = 0; c < get_columns(); ++c) {
-            for (unsigned int i = 0; i < get_columns(); ++i) {
-               newData.get()[r * get_columns() + c] += data_[r * get_columns() + i] * matrix.get_data()[get_columns() * i + c];
+      for (unsigned int r = 0; r < getRows(); ++r) {
+         for (unsigned int c = 0; c < getColumns(); ++c) {
+            for (unsigned int i = 0; i < getColumns(); ++i) {
+               newData.get()[r * getColumns() + c] += data_[r * getColumns() + i] * matrix.getData()[getColumns() * i + c];
             }
          }
       }
    } else {
       string s = "Exception MATRIX_PRODUCT: dimensions do not correspond. ";
-      s.append("(").append(std::to_string(get_columns())).append(", ").append(std::to_string(matrix.get_rows())).append(")\n");
+      s.append("(").append(std::to_string(getColumns())).append(", ").append(std::to_string(matrix.getRows())).append(")\n");
 
       throw ExceptionNotifier(s.c_str());
    }
 
-   return Matrix(get_rows(), matrix.get_columns(), newData.release());
+   return Matrix(getRows(), matrix.getColumns(), newData.release());
 }
 
 Matrix Matrix::transpose(const Matrix &matrix) {
-   unique_ptr<float> newData(new float[matrix.get_rows() * matrix.get_columns()]);
+   unique_ptr<float> newData(new float[matrix.getRows() * matrix.getColumns()]);
 
-   for (int i = 0; i < matrix.get_columns(); ++i) {
-      for (int j = 0; j < matrix.get_rows(); ++j) {
+   for (int i = 0; i < matrix.getColumns(); ++i) {
+      for (int j = 0; j < matrix.getRows(); ++j) {
          //TODO check here
-         newData.get()[i* matrix.get_rows() + j] = matrix.get_data()[j * matrix.get_columns() + i];
+         newData.get()[i* matrix.getRows() + j] = matrix.getData()[j * matrix.getColumns() + i];
       }
    }
 
-   return Matrix(matrix.get_columns(), matrix.get_rows(), newData.release());
+   return Matrix(matrix.getColumns(), matrix.getRows(), newData.release());
 }
 
-Matrix Matrix::create_submatrix(const Matrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
-   std::unique_ptr<float> newData(new float[(matrix.get_rows() - 1) * (matrix.get_columns() - 1)]);
+Matrix Matrix::createSubmatrix(const Matrix &matrix, unsigned int rowIndex, unsigned int columnIndex) {
+   std::unique_ptr<float> newData(new float[(matrix.getRows() - 1) * (matrix.getColumns() - 1)]);
 
    unsigned int index = 0;
-   for (int i = 0; i < matrix.get_rows(); ++i) {
+   for (int i = 0; i < matrix.getRows(); ++i) {
       if (i != rowIndex) {
-         for (int j = 0; j < matrix.get_columns(); ++j) {
+         for (int j = 0; j < matrix.getColumns(); ++j) {
             if (j != columnIndex) {
-               newData.get()[index++] = matrix.get_array()[i * matrix.get_columns() + j];
+               newData.get()[index++] = matrix.getArray()[i * matrix.getColumns() + j];
             }
          }
       }
    }
 
-   return Matrix(matrix.get_rows() - 1, matrix.get_columns() - 1, newData.release());
+   return Matrix(matrix.getRows() - 1, matrix.getColumns() - 1, newData.release());
 }
 
-FloatVector Matrix::multiply_vector(const FloatVector& vector) const noexcept(false) {
-   if (get_columns() == vector.get_size()) {
-      FloatVector newData(get_rows(), {});
+FloatVector Matrix::multiplyVector(const FloatVector& vector) const noexcept(false) {
+   if (getColumns() == vector.get_size()) {
+      FloatVector newData(getRows(), {});
 
-      for (int i = 0; i < get_rows(); ++i) {
+      for (int i = 0; i < getRows(); ++i) {
          float value = 0;
 
-         for (int j = 0; j < get_columns(); ++j) {
-            value += get_array()[i * get_columns() + j] * vector.get_vector().get()[j];
+         for (int j = 0; j < getColumns(); ++j) {
+            value += getArray()[i * getColumns() + j] * vector.get_vector().get()[j];
          }
 
          newData.get_vector().get()[i] = value;
@@ -200,15 +204,15 @@ FloatVector Matrix::multiply_vector(const FloatVector& vector) const noexcept(fa
       return move(newData);
    } else {
       string s = "Exception NO_MATCH_LENGTH: matrix and vector_ do not have correct size_. ";
-      s.append("Matrix columns_: ").append(std::to_string(get_columns())).append("!= Vector size_: ")
+      s.append("Matrix columns_: ").append(std::to_string(getColumns())).append("!= Vector size_: ")
          .append(std::to_string(vector.get_size())).append("\n");
 
       throw ExceptionNotifier(s.c_str());
    }
 }
 
-void Matrix::delete_matrix() {
-   for (int i = 0; i < get_rows() * get_columns(); ++i) {
+void Matrix::deleteMatrix() {
+   for (int i = 0; i < getRows() * getColumns(); ++i) {
       data_[i] = 0;
    }
 }
@@ -216,11 +220,11 @@ void Matrix::delete_matrix() {
 std::string Matrix::to_string() const {
    string s;
 
-   for (auto i = 0; i < get_rows(); ++i) {
+   for (auto i = 0; i < getRows(); ++i) {
       s.append("[");
 
-      for (auto j = 0; j < get_columns(); ++j) {
-         s.append(std::to_string(get_array()[i*get_columns() + j])).append("\t");
+      for (auto j = 0; j < getColumns(); ++j) {
+         s.append(std::to_string(getArray()[i * getColumns() + j])).append("\t");
       }
 
       s.append("]").append("\n");

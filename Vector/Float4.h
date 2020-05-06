@@ -24,31 +24,23 @@ public:
    Float4 operator*(const float& scalar);
    Float4& operator*=(const float& scalar);
 
-   float dot_product(const Float4& point) const;
-   //Float4 cross_product(const Float4& point) const;
+   float dotProduct(const Float4& point) const;
+   //Float4 crossProduct(const Float4& point) const;
 
-   float l2_norm() const;
+   float l2Norm() const;
    void normalize();
 
-   float get_x() const;
-   float get_y() const;
-   float get_z() const;
-   float get_w() const;
+   float getX() const;
+   float getY() const;
+   float getZ() const;
+   float getW() const;
 
-   void set_x(const float& x);
-   void set_y(const float& y);
-   void set_z(const float& z);
-   void set_w(const float& w);
+   void setX(const float& x);
+   void setY(const float& y);
+   void setZ(const float& z);
+   void setW(const float& w);
 
-   Float3 getProjectionQuotient() {
-      if (vector_.get()[3] != 0) {
-         float inv = 1/get_w();
-
-         return Float3(get_x()*inv, get_y()*inv, get_z()*inv);
-      } else {
-         throw vector_.get()[3];
-      }
-   }
+   Float3 getProjectionQuotient();
 };
 
 #endif //FLOAT4_H

@@ -32,17 +32,17 @@ public:
     Float2 operator*(const float& scalar);
     Float2& operator*=(const float& scalar);
 
-    float dot_product(const Float2& point) const;
-    Float2 cross_product() const;
+    float dotProduct(const Float2& point) const;
+    Float2 crossProduct() const;
 
-    float l2_norm() const;
+    float l2Norm() const;
     void normalize();
 
-    float get_x() const;
-    float get_y() const;
+    float getX() const;
+    float getY() const;
 
-    void set_x(const float& x);
-    void set_y(const float& y);
+    void setX(const float& x);
+    void setY(const float& y);
 
     //Rotation functions
     static Float2 axisRotateVertex2(const Float2& vector, const float& angle);

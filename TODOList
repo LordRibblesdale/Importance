@@ -4,6 +4,7 @@
 -> Add all remaining friend operators
 
 -> Check "move" operations (if needed or not)
+-> Normalise all vectors (especially if involved into orthogonal matrices) [ex: world->view]
 
 -> ! Implement XML reading-writing system
 

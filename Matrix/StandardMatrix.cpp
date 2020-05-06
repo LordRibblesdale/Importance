@@ -4,7 +4,7 @@ Float3 Rotation::axisXRotateVertex3(const Float3 &vector, const float &angleX) {
    float cosAngle = cosf(angleX);
    float sinAngle = sinf(angleX);
    SquareMatrix rotation(3, {1, 0, 0, 0, cosAngle, -sinAngle, 0, sinAngle, cosAngle});
-   FloatVector rotatedVertex(std::move(rotation.multiply_vector(vector)));
+   FloatVector rotatedVertex(std::move(rotation.multiplyVector(vector)));
 
    return Float3(*static_cast<Float3*>(&rotatedVertex));
 }
@@ -13,7 +13,7 @@ Float3 Rotation::axisYRotateVertex3(const Float3 &vector, const float &angleY) {
    float cosAngle = cosf(angleY);
    float sinAngle = sinf(angleY);
    SquareMatrix rotation(3, {cosAngle, 0, sinAngle, 0, 1, 0, -sinAngle, 0, cosAngle});
-   FloatVector rotatedVertex(std::move(rotation.multiply_vector(vector)));
+   FloatVector rotatedVertex(std::move(rotation.multiplyVector(vector)));
 
    return Float3(*static_cast<Float3*>(&rotatedVertex));
 }
@@ -22,7 +22,7 @@ Float3 Rotation::axisZRotateVertex3(const Float3 &vector, const float &angleZ) {
    float cosAngle = cosf(angleZ);
    float sinAngle = sinf(angleZ);
    SquareMatrix rotation(3, {cosAngle, -sinAngle, 0, sinAngle, cosAngle, 0, 0, 0, 1});
-   FloatVector rotatedVertex(std::move(rotation.multiply_vector(vector)));
+   FloatVector rotatedVertex(std::move(rotation.multiplyVector(vector)));
 
    return Float3(*static_cast<Float3*>(&rotatedVertex));
 }
@@ -31,12 +31,12 @@ Float4 Rotation::quaternionAxisRotateVertex4(const Float4 &vector, Float4 &direc
    Float4 newVector;
 
    //TODO optimise here (remainder function)
-   if (direction.l2_norm() != 0 && remainder(angle, 2*M_PI) != 0) {
+   if (direction.l2Norm() != 0 && remainder(angle, 2 * M_PI) != 0) {
       float sin = sinf(angle*0.5);
-      float q1 = direction.get_x()*sin;
-      float q2 = direction.get_y()*sin;
-      float q3 = direction.get_z()*sin;
-      float q4 = direction.get_w()*cosf(angle*0.5);
+      float q1 = direction.getX() * sin;
+      float q2 = direction.getY() * sin;
+      float q3 = direction.getZ() * sin;
+      float q4 = direction.getW() * cosf(angle * 0.5);
       //TODO check division here
       float s = 2/(q1*q1 + q2*q2 + q3*q3 + q4*q4);
 
@@ -45,7 +45,7 @@ Float4 Rotation::quaternionAxisRotateVertex4(const Float4 &vector, Float4 &direc
                                         s*(q1*q3 - q4*q2),   s*(q2*q3 + q4*q1),   1-s*(q1*q1 + q2*q2), 0,
                                         0,                   0,                   0,                   1});
 
-      FloatVector fv(quaternionMatrix.multiply_vector(vector));
+      FloatVector fv(quaternionMatrix.multiplyVector(vector));
       newVector = std::move(*static_cast<Float4*>(&fv));
    }
 
@@ -53,13 +53,13 @@ Float4 Rotation::quaternionAxisRotateVertex4(const Float4 &vector, Float4 &direc
 }
 
 SquareMatrix Transform::scaleTransform(const SquareMatrix &matrix, float scaleX, float scaleY, float scaleZ) {
-   std::unique_ptr<float> newData(new float[matrix.get_dimension()*matrix.get_dimension()]);
+   std::unique_ptr<float> newData(new float[matrix.getDimension() * matrix.getDimension()]);
 
    newData.get()[0] *= scaleX;
-   newData.get()[matrix.get_dimension()] *= scaleY;
-   newData.get()[matrix.get_dimension()*2] *= scaleZ;
+   newData.get()[matrix.getDimension()] *= scaleY;
+   newData.get()[matrix.getDimension() * 2] *= scaleZ;
 
-   return SquareMatrix(matrix.get_dimension(), newData.release());
+   return SquareMatrix(matrix.getDimension(), newData.release());
 }
 
 SquareMatrix Projection::view2ClipProjection(const float& right, const float& left, const float &near, const float &far,

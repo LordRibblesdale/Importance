@@ -16,11 +16,11 @@ Float2::Float2() : FloatVector(2, {0, 0}) {}
 
 Float2::Float2(const float& x, const float& y) : FloatVector(2, {x, y}) {}
 
-Float2::Float2(const Float2 &point) : FloatVector(2, {point.get_x(), point.get_y()}) {}
+Float2::Float2(const Float2 &point) : FloatVector(2, {point.getX(), point.getY()}) {}
 
-Float2::Float2(Float2&& point) : FloatVector(2, {point.get_x(), point.get_y()}) {
-   point.set_x(0);
-   point.set_y(0);
+Float2::Float2(Float2&& point) : FloatVector(2, {point.getX(), point.getY()}) {
+   point.setX(0);
+   point.setY(0);
 }
 
 Float2::~Float2() {}
@@ -28,89 +28,89 @@ Float2::~Float2() {}
 //TODO missing "+=" e "-=" operators
 
 Float2& Float2::operator=(const Float2 &point) {
-   set_x(point.get_x());
-   set_y(point.get_y());
+   setX(point.getX());
+   setY(point.getY());
 
    return *this;
 }
 
 Float2& Float2::operator=(Float2&& point) {
-   set_x(point.get_x());
-   set_y(point.get_y());
+   setX(point.getX());
+   setY(point.getY());
 
-   point.set_x(0);
-   point.set_y(0);
+   point.setX(0);
+   point.setY(0);
 
    return *this;
 }
 
 Float2 Float2::operator+(const Float2& point) {
-   return Float2(get_x() + point.get_x(), get_y() + point.get_y());
+   return Float2(getX() + point.getX(), getY() + point.getY());
 }
 
 Float2 Float2::operator-(const Float2& point) {
-   return Float2(get_x() - point.get_x(), get_y() - point.get_y());
+   return Float2(getX() - point.getX(), getY() - point.getY());
 }
 
 Float2 &Float2::operator+=(const Float2 &point) {
-   set_x(get_x() + point.get_x());
-   set_y(get_y() + point.get_y());
+   setX(getX() + point.getX());
+   setY(getY() + point.getY());
 
    return *this;
 }
 
 Float2 &Float2::operator-=(const Float2 &point) {
-   set_x(get_x() - point.get_x());
-   set_y(get_y() - point.get_y());
+   setX(getX() - point.getX());
+   setY(getY() - point.getY());
 
    return *this;
 }
 
 Float2 Float2::operator*(const float& scalar) {
-   return Float2(scalar * get_x(), scalar * get_y());
+   return Float2(scalar * getX(), scalar * getY());
 }
 
 Float2& Float2::operator*=(const float& scalar) {
-   set_x(get_x() * scalar);
-   set_y(get_y() * scalar);
+   setX(getX() * scalar);
+   setY(getY() * scalar);
    return *this;
 }
 
-float Float2::dot_product(const Float2& point) const {
-   return get_x() * point.get_x() + get_y() * point.get_y();
+float Float2::dotProduct(const Float2& point) const {
+   return getX() * point.getX() + getY() * point.getY();
 }
 
-Float2 Float2::cross_product() const {
-   return Float2(get_y(), -get_x());
+Float2 Float2::crossProduct() const {
+   return Float2(getY(), -getX());
 }
 
-float Float2::l2_norm() const {
-   return sqrtf(get_x() * get_x() + get_y() * get_y());
+float Float2::l2Norm() const {
+   return sqrtf(getX() * getX() + getY() * getY());
 }
 
 void Float2::normalize() {
-   float norm = l2_norm();
+   float norm = l2Norm();
 
    if (norm != 0) {
       float n = 1/norm;
-      set_x(get_x()*n);
-      set_y(get_y()*n);
+      setX(getX() * n);
+      setY(getY() * n);
    }
 }
 
-float Float2::get_x() const {
+float Float2::getX() const {
    return get_vector().get()[0];
 }
 
-float Float2::get_y() const {
+float Float2::getY() const {
    return get_vector().get()[1];
 }
 
-void Float2::set_x(const float& x) {
+void Float2::setX(const float& x) {
    get_vector().get()[0] = x;
 }
 
-void Float2::set_y(const float& y) {
+void Float2::setY(const float& y) {
    get_vector().get()[1] = y;
 }
 
@@ -118,16 +118,16 @@ Float2 Float2::axisRotateVertex2(const Float2 &vector, const float& angle) {
    float cosAngle = cosf(angle);
    float sinAngle = sinf(angle);
    SquareMatrix rotation(4, {cosAngle, -sinAngle, sinAngle, cosAngle});
-   FloatVector rotatedVertex(move(rotation.multiply_vector(vector)));
+   FloatVector rotatedVertex(move(rotation.multiplyVector(vector)));
 
    return Float2(*static_cast<Float2*>(&rotatedVertex));
 }
 
 ostream& operator<<(ostream& stream, const Float2& point) {
-   return stream << "Point (" << point.get_x() << ", " << point.get_y() << ")";
+   return stream << "Point (" << point.getX() << ", " << point.getY() << ")";
 }
 
 
 Float2 operator*(const float& scalar, const Float2& point) {
-   return Float2(point.get_x() * scalar, point.get_y() * scalar);
+   return Float2(point.getX() * scalar, point.getY() * scalar);
 }

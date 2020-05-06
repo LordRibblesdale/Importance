@@ -29,29 +29,29 @@ public:
 
    static Matrix transpose(const Matrix& matrix);
 
-   static Matrix create_submatrix(const Matrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
+   static Matrix createSubmatrix(const Matrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
-   FloatVector multiply_vector(const FloatVector& vector) const;
+   FloatVector multiplyVector(const FloatVector& vector) const;
 
-   inline FloatArray get_data() const {
+   inline FloatArray getData() const {
       return data_;
    }
 
-   inline float* get_array() const {
-      return data_.get_array().get();
+   inline float* getArray() const {
+      return data_.getArray().get();
    }
 
-   inline unsigned int get_rows() const {
-      return data_.get_rows();
+   inline unsigned int getRows() const {
+      return data_.getRows();
    }
 
-   inline unsigned int get_columns() const {
-      return data_.get_columns();
+   inline unsigned int getColumns() const {
+      return data_.getColumns();
    }
 
-   void delete_matrix();
+   void deleteMatrix();
 
-   std::string to_string() const;
+   std::string toString() const;
 };
 
 #endif //MATRIX_H

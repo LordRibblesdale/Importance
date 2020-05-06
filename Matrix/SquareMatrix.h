@@ -15,20 +15,20 @@ public:
    void transpose();
    static SquareMatrix transpose(const SquareMatrix& matrix);
 
-   static SquareMatrix create_submatrix(const SquareMatrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
+   static SquareMatrix createSubmatrix(const SquareMatrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
-   float calculate_determinant() const;
-   static float calculate_determinant(const SquareMatrix& matrix);
-   static float calculate_cofactor(const SquareMatrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
+   float calculateDeterminant() const;
+   static float calculateDeterminant(const SquareMatrix& matrix);
+   static float calculateCofactor(const SquareMatrix& matrix, unsigned int rowIndex, unsigned int columnIndex);
 
    void invert();
 
    void scaleMatrix(float scaleX, float scaleY, float scaleZ);
 
-   static SquareMatrix calculate_inverse(const SquareMatrix& matrix);
+   static SquareMatrix calculateInverse(const SquareMatrix& matrix);
 
-   inline unsigned int get_dimension() const {
-      return data_.get_rows();
+   inline unsigned int getDimension() const {
+      return data_.getRows();
    }
 };
 

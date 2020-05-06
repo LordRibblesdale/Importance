@@ -4,17 +4,21 @@ Camera::Camera(Float3&  eye, Float3&  lookAt) : eye(std::move(eye)), lootAt(std:
 
 SquareMatrix Camera::world2ViewMatrix() {
    Float3 zView(eye - lootAt);
-   Float3 xView(std::move(up.cross_product(zView)));
-   Float3 yView(std::move(zView.cross_product(xView)));
+   Float3 xView(std::move(up.crossProduct(zView)));
+   Float3 yView(std::move(zView.crossProduct(xView)));
+   xView.normalize();
+   yView.normalize();
+   zView.normalize();
+
    SquareMatrix view2WorldMatrix(4, {});
 
    for (int i = 0; i < xView.get_size(); ++i) {
-      view2WorldMatrix.get_array()[i*view2WorldMatrix.get_dimension()] = xView.get_vector().get()[i];
-      view2WorldMatrix.get_array()[i*view2WorldMatrix.get_dimension() + 1] = yView.get_vector().get()[i];
-      view2WorldMatrix.get_array()[i*view2WorldMatrix.get_dimension() + 2] = zView.get_vector().get()[i];
+      view2WorldMatrix.getArray()[i * view2WorldMatrix.getDimension()] = xView.get_vector().get()[i];
+      view2WorldMatrix.getArray()[i * view2WorldMatrix.getDimension() + 1] = yView.get_vector().get()[i];
+      view2WorldMatrix.getArray()[i * view2WorldMatrix.getDimension() + 2] = zView.get_vector().get()[i];
    }
 
-   view2WorldMatrix.get_array()[view2WorldMatrix.get_dimension()*view2WorldMatrix.get_dimension()-1] = 1;
+   view2WorldMatrix.getArray()[view2WorldMatrix.getDimension() * view2WorldMatrix.getDimension() - 1] = 1;
 
-   return SquareMatrix::calculate_inverse(view2WorldMatrix);
+   return SquareMatrix::calculateInverse(view2WorldMatrix);
 }
