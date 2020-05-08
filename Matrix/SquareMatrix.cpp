@@ -1,6 +1,7 @@
 #include "SquareMatrix.h"
 #include "memory"
 #include <iostream>
+#include <cmath>
 
 SquareMatrix::SquareMatrix(unsigned int dimension, const std::initializer_list<float>& data) : Matrix(dimension, dimension, data) {}
 
@@ -119,7 +120,3 @@ void SquareMatrix::scaleMatrix(float scaleX, float scaleY, float scaleZ) {
    data_.getArray().get()[getDimension()] *= scaleY;
    data_.getArray().get()[getDimension() * 2] *= scaleZ;
 }
-
-
-
-

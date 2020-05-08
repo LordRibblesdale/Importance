@@ -217,7 +217,7 @@ void Matrix::deleteMatrix() {
    }
 }
 
-std::string Matrix::to_string() const {
+std::string Matrix::toString() const {
    string s;
 
    for (auto i = 0; i < getRows(); ++i) {
@@ -232,4 +232,3 @@ std::string Matrix::to_string() const {
 
    return s;
 }
-
