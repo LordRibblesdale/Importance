@@ -9,6 +9,8 @@ Triangle::Triangle(Float3 &p0, Float3 &p1, Float3 &p2) {
    points.get()[0] = std::move(p0);
    points.get()[1] = std::move(p1);
    points.get()[2] = std::move(p2);
+
+   normal = std::move((points.get()[1] - points.get()[0]).crossProduct(points.get()[2] - points.get()[0]));
 }
 
 const Float3& Triangle::getPoint0() const {
@@ -26,4 +28,8 @@ const Float3& Triangle::getPoint2() const {
 Float3 Triangle::getPoint(float u, float v) const {
    //TODO check warning here
    return Float3((1-u-v)*points[0] + u*points[1] + v*points[2]);
+}
+
+const Float3 &Triangle::getNormal() const {
+   return normal;
 }

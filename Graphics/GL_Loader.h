@@ -1,33 +1,13 @@
-#ifndef COTECCHIOGAME_GL_LOADER_H
-#define COTECCHIOGAME_GL_LOADER_H
+#ifndef GL_LOADER_H
+#define GL_LOADER_H
 
 #include "glad.h"
 #include "glfw3.h"
+#include "GLSL.h"
 
 #include <iostream>
 
-//TODO clean code!!!
-// Impostazione linguaggio GLSL - scrittura direzionalità e tipo di dato
-const char* vsSource = "#version 330 core\n"
-                       "layout (location = 0) in vec3 position;\n" // Variabile in ingresso di 3 float (vettore), layout da posizione sulla memoria
-                       //"out vec3 gl_Position;\n"
-                       "void main() {\n"
-                       "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);\n"
-                       "   \n"
-                       //"   gl_Position = MVP*position\n"  // Posizione in Clip Space/NDC
-                       "}\n\0";
-                       //"layout (location = 1) in vec3 normal;\n" // Definiamo più attributi su piu indici
-                       //"layout (location = 2) in vec2 uv;\n"
-                       //"uniform bool name;\n"   // Valore uniforme, costante per tutti i vertici e/o fragment
-                       //"vec3 pos1 = position.xxx"; // Inizializzazione con accesso a variabili position.xyz con x y z generici
-                                       // Attributi: dati
-const char* fsSource = "#version 330 core\n"
-                       "out vec4 fragColor;\n"
-                        "void main() {\n"
-                        "  fragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n" // Colore [0,1] RGBA
-                        "  \n"
-                        "}\n\0";
-
+// TODO add points as Float3
 float vertices[] {-0.5f, -0.5f, 0.0f,
                   0.5f, -0.5f, 0.0f,
                   0.0f, -0.5f, 0.0f}; //In coordinate NDC da inviare allo shader
@@ -84,6 +64,7 @@ static int initialise() {
    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);  // Operazione binaria, invia chiamata sulla scheda grafica
    int report;
    char infoLog[512];
+
    // Assegnazione codice allo shader (handle, assegnazione stringa di un puntatore
    glShaderSource(vertexShader, 1, &vsSource, nullptr);
    // Compilazione shader
@@ -159,11 +140,13 @@ static int initialise() {
     * Offset di memoria, ovvero punto zona di memoria per leggere i dati, poichè a priori non nota (potrebbero esserci dati in piu da non dover leggere
     * x y z u v  x y ... offset 2
     */
-   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), (void*)nullptr); //(void*)0
+   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), nullptr); //(void*)0
    glEnableVertexAttribArray(0);
+
    glBindBuffer(GL_ARRAY_BUFFER, 0); // Adesso GL_ARRAY_BUFFER saranno ora riferite all'array 0, per evitare di richiamare qualcos'altro
+
    glBindVertexArray(0);
-   // ATTENZIONE a non sovrascrivere, quindi attenzione a sofrascrittura
+   // ATTENZIONE a non sovrascrivere, quindi attenzione a sovrascrittura
 
    // Chiamate di GLAD e di GLFW
    //Creazione di Render Loop (infinito, finisce quando esce dalla finestra)
@@ -172,7 +155,7 @@ static int initialise() {
       // Eseguiti in senso temporale
       pollInput(window);
 
-      glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
+      glClearColor(0.2f, 0.4f, 0.1f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT); // In base all'ordine, modifica lo stato del sistema corrente o successivo
 
       glUseProgram(shaderProgram);  // Imposta tutte le chiamate tramite shaderProgram, iniziando la pipeline
@@ -198,4 +181,4 @@ static int initialise() {
    return 0;
 }
 
-#endif //COTECCHIOGAME_GL_LOADER_H
+#endif //GL_LOADER_H
