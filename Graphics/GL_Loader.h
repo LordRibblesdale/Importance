@@ -30,7 +30,24 @@ void pollInput(GLFWwindow *window) {
    // Funzione per l'input, esempio via tastiera
    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
       glfwSetWindowShouldClose(window, true);
+   } /*else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+      for (int i = 0; i < 3; ++i) {
+         vertices[3*i] -= 0.1;
+      }
+   } else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+      for (int i = 0; i < 3; ++i) {
+         vertices[3*i] += 0.1;
+      }
+   } else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+      for (int i = 0; i < 3; ++i) {
+         vertices[3*i+1] -= 0.1;
+      }
+   } else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+      for (int i = 0; i < 3; ++i) {
+         vertices[3*i+1] -= 0.1;
+      }
    }
+   */
 }
 
 /* Processo di rendering:
@@ -155,12 +172,12 @@ static int initialise() {
    glGenBuffers(1, &vbo);
    // Chiamata per collegare un tipo di buffer noto agli attributi di vertice, l'indice dell'area di memoria creata va intesa come arraybuffer
    // Bind all'inizio delle operazioni riferite al VAO
+   // Binding: ogni chiamata di tipo ARRAY_BUFFER sarà assegnata all'ultimo bind assegnato
    glBindVertexArray(vao);
 
-   // Binding: ogni chiamata di tipo ARRAY_BUFFER sarà assegnata all'ultimo bind assegnato
-   glBindBuffer(GL_ARRAY_BUFFER, vbo);
    // Copia dati nell'array, inizializzando la memoria nel punto bindato del buffer (prima solo indice, VBO)
    // GL_STATIC_DRAW imposta punti che non verranno modificati ma solo disegnati ogni volta
+   glBindBuffer(GL_ARRAY_BUFFER, vbo);
    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
    // Imposta il modo di interpretare i dati ottenuti dal buffer, il quale ottiene i dati dal vettore
@@ -172,11 +189,11 @@ static int initialise() {
     * Offset di memoria, ovvero punto zona di memoria per leggere i dati, poichè a priori non nota (potrebbero esserci dati in piu da non dover leggere
     * x y z u v  x y ... offset 2
     */
-   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), nullptr); //(void*)0
+   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3* sizeof(float), (GLvoid*)0);
    // Abilita gli attributi passatigli
    glEnableVertexAttribArray(0);
 
-   // Adesso GL_ARRAY_BUFFER saranno ora riferite all'array 0, per evitare di richiamare qualcos'altro
+   // Imposta il nuovo buffer a 0, ovvero slega il bind dall'array (per evitare di sovrascrivere)
    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
    // Unbind del VAO precedentemente assegnato per evitare sovrascritture non volute
