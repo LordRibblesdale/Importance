@@ -1,7 +1,7 @@
 #include <limits>
 #include "Ray.h"
 
-Ray::Ray(Float3 &origin, Float3 &direction) : origin_(std::move(origin)), direction_(std::move(direction)) {}
+Ray::Ray(Float3 origin, Float3 direction) : origin_(std::move(origin)), direction_(std::move(direction)) {}
 
 bool Ray::isIntersecting(const Box &box) const {
    float tNear = std::numeric_limits<float>::min();
@@ -63,6 +63,15 @@ TriangleIntersection& Ray::getTriangleIntersection(const Triangle &triangle) con
    }
 
    return *intersection.release();
+}
+
+Ray Ray::getReflectionOn(const Triangle &triangle, const TriangleIntersection &intersection) {
+   return Ray(intersection.getIntersectedPoint(), direction_ - 2 * direction_.dotProduct(triangle.getNormal()) * triangle.getNormal());
+}
+
+Ray Ray::getRefractionOn(const Triangle &triangle, const TriangleIntersection &intersection) {
+   //TODO implement Schlick equations
+   return Ray(Float3(), Float3());
 }
 
 const Float3 &Ray::getOrigin() const {

@@ -46,7 +46,7 @@ class Ray {
    Float3 direction_;
 
 public:
-   Ray(Float3& origin, Float3& direction);
+   Ray(Float3 origin, Float3 direction);
 
    bool isIntersecting(const Box& box) const;
 
