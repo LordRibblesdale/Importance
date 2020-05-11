@@ -7,15 +7,10 @@
 #include "../Vector/Float3.h"
 
 #include <iostream>
-
-// TODO add points as Float3
-Float3 array[] {
-   Float3(-0.5f, -0.5f, 0.0f),
-   Float3(0.5f, -0.5f, 0.0f),
-   Float3(0.0f, 0.5f, 0.0f)
-};
+#include <vector>
 
 //In coordinate NDC da inviare allo shader
+std::vector<Float3> array;
 
 //Vertex buffer, Element buffer per la topologia
 // Rappresentazione elemento geometrico è visibile se la normale dell'elemento è diretta verso la camera
@@ -170,7 +165,7 @@ static int initialise() {
    GLuint vbo; // Vertex Buffer Object, buffer per inviare i dettagli per dare dettagli del vertice
    GLuint vao; // Vertex Array Object, contenitore per inserire array, vertici e topologia, usandolo come definizione logica dell'oggetto
 
-
+   //TODO optimise here
    float vertices[9];
 
    int j = 0;
