@@ -1,38 +1,62 @@
-#include <rapidxml_utils.hpp>
-#include "Graphics/GL_Loader.h"
-#include "rapidxml.hpp"
+#include <fstream>
+#include <vector>
+#include <iostream>
+#include "Matrix/SquareMatrix.h"
 
-// Argument as XML file importer
+unsigned int length = 20;
+
 int main(int argc, char** argv) {
-   // Creazione input buffer
-   std::ifstream file("text.xml");
+   std::ifstream file("D:\\matrix.csv");
 
-   if (!file.fail()) {
-      // Creazione documento
-      rapidxml::xml_document<> document;
-      // Creazione nodo iniziale per lettura file
-      rapidxml::xml_node<>* rootNode;
-      // Lettura testo :         V: iteratore file stream               V: iteratore fino all'EOF
-      std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-      // Aggiunta del carattere EOF \0
-      buffer.push_back('\0');
-      // Ricerca dei nodi (a partire dall'inizio
-      document.parse<0>(&buffer[0]);
-      // Ricerca del primo nodo
-      rootNode = document.first_node("SimpleTriangle");
-      // Iterazioni tra i nodi
-      // Creazione dal primo nodo, controllo che esista, imposto il successivo parente
-      for (rapidxml::xml_node<>* position = rootNode->first_node("Float3"); position; position = position->next_sibling()) {
-         for (rapidxml::xml_node<>* coordinates = position->first_node("Positions"); coordinates; coordinates = coordinates->next_sibling()) {
-            array[std::stoi(position->first_attribute("point")->value())]
-                    = std::move(Float3(std::stof(coordinates->first_attribute("x")->value()),
-                                       std::stof(coordinates->first_attribute("y")->value()),
-                                       std::stof(coordinates->first_attribute("z")->value())));
+   if (file.is_open())  {
+      std::cout.precision(7);
+
+      SquareMatrix matrix(length-1, {});
+
+      std::string s((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+      s.append("\0");
+
+      std::vector<std::string> names;
+
+      int previousIndex = 0;
+      int index = 0;
+      int mi = 0;
+
+      while(index < s.length() && index != -1) {
+         for (int i = 0; i < length; ++i) {
+            index = s.find(',', index+1);
+
+            if (index != -1) {
+               if (i == 0) {
+                  names.push_back(std::string(&s[previousIndex], &s[index]));
+               } else {
+                  std::string sub(&s[previousIndex+1], &s[index]);
+                  //std::cout << "Index: " + std::to_string(i) + " - Value: " + sub << std::endl;
+
+                  int slashIndex = sub.find('/');
+                  float f2 = 0;
+
+                  if (slashIndex != -1) {
+                     //std::cout << std::string(&sub[slashIndex+2]) << std::endl;
+                     f2 = 1 / std::stof(std::string(&sub[slashIndex + 1]));
+                  }
+
+                  std::cout << f2 << std::endl;
+
+                  matrix.getData()[mi++] = f2;
+                  std::cout << matrix.getData()[mi] << std::endl;
+
+               }
+            } else {
+               break;
+            }
+
+            previousIndex = index;
          }
       }
 
-      return initialise();
+      //std::cout << matrix.toString();
    }
 
-   return 1;
+   return 0;
 }
