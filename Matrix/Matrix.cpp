@@ -2,6 +2,10 @@
 #include "Matrix.h"
 #include "../Exception/ExceptionNotifier.h"
 
+Matrix::Matrix(unsigned int rows, unsigned int columns) {
+   data_ = FloatArray(rows, columns);
+}
+
 Matrix::Matrix(unsigned int rows, unsigned int columns, const initializer_list<float>& data) {
    data_ = FloatArray(rows, columns, data);
 }
@@ -139,11 +143,10 @@ Matrix Matrix::operator*(Matrix &matrix) noexcept(false) {
    std::unique_ptr<float> newData(new float[getRows() * matrix.getColumns()]);
 
    if (getColumns() == matrix.getRows()) {
-
       for (unsigned int r = 0; r < getRows(); ++r) {
-         for (unsigned int c = 0; c < getColumns(); ++c) {
+         for (unsigned int c = 0; c < matrix.getColumns(); ++c) {
             for (unsigned int i = 0; i < getColumns(); ++i) {
-               newData.get()[r * getColumns() + c] += data_[r * getColumns() + i] * matrix.getData()[getColumns() * i + c];
+               newData.get()[r * matrix.getColumns() + c] += data_[r * getColumns() + i] * matrix.getData()[i * matrix.getColumns() + c];
             }
          }
       }
@@ -224,7 +227,7 @@ std::string Matrix::toString() const {
       s.append("[");
 
       for (auto j = 0; j < getColumns(); ++j) {
-         s.append(std::to_string(getArray()[i * getColumns() + j])).append("\t");
+         s.append(std::to_string(getArray()[i * getColumns() + j])).append("  ");
       }
 
       s.append("]").append("\n");

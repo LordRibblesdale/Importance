@@ -10,6 +10,7 @@ private:
    std::unique_ptr<float> array_;
 
 public:
+   FloatArray(unsigned short rows, unsigned short columns);
    FloatArray(unsigned short dimension, const std::initializer_list<float>& data);
    FloatArray(unsigned short rows, unsigned short columns, const std::initializer_list<float>& data);
    FloatArray(unsigned short rows, unsigned short columns, float*& data);

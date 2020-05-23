@@ -1,62 +1,126 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include <memory>
+#include <windows.h>
 #include "Matrix/SquareMatrix.h"
 
-unsigned int length = 20;
+unsigned int LENGTH = 20;
+
+void clear_screen(char);
 
 int main(int argc, char** argv) {
-   std::ifstream file("D:\\matrix.csv");
+   std::ifstream file("matrix");
 
    if (file.is_open())  {
       std::cout.precision(7);
 
-      SquareMatrix matrix(length-1, {});
-
-      std::string s((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-      s.append("\0");
+      std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
       std::vector<std::string> names;
+      std::unique_ptr<float> vector(new float[(LENGTH-1)*(LENGTH-1)]);
+      SquareMatrix matrix(LENGTH-1, vector.get());
 
-      int previousIndex = 0;
-      int index = 0;
       int mi = 0;
+      int i = 0;
 
-      while(index < s.length() && index != -1) {
-         for (int i = 0; i < length; ++i) {
-            index = s.find(',', index+1);
+      int index = 0;
+      int temporaryIndex = 0;
+      while(index < buffer.size()) {
+         if (buffer.at(index) == '\n') {
+            std::string tmp(buffer.begin() + temporaryIndex, buffer.begin() + index);
+            temporaryIndex = index+1;
 
-            if (index != -1) {
-               if (i == 0) {
-                  names.push_back(std::string(&s[previousIndex], &s[index]));
-               } else {
-                  std::string sub(&s[previousIndex+1], &s[index]);
-                  //std::cout << "Index: " + std::to_string(i) + " - Value: " + sub << std::endl;
-
-                  int slashIndex = sub.find('/');
-                  float f2 = 0;
-
-                  if (slashIndex != -1) {
-                     //std::cout << std::string(&sub[slashIndex+2]) << std::endl;
-                     f2 = 1 / std::stof(std::string(&sub[slashIndex + 1]));
-                  }
-
-                  std::cout << f2 << std::endl;
-
-                  matrix.getData()[mi++] = f2;
-                  std::cout << matrix.getData()[mi] << std::endl;
-
-               }
+            if (i == 0) {
+               names.push_back(tmp);
             } else {
-               break;
+               float f = std::stof(tmp);
+
+               if (f == 0) {
+                  ++mi;
+               } else {
+                  matrix.getArray()[mi++] = 1.0f/f;
+               }
             }
 
-            previousIndex = index;
+            if (++i == LENGTH) {
+               i = 0;
+            }
+         }
+
+         ++index;
+      }
+
+      file.close();
+
+      Matrix dangling(LENGTH-1, 1, {});
+
+      for (i = 0; i < matrix.getDimension(); ++i) {
+         float sum = 0;
+
+         for (int j = 0; j < matrix.getDimension(); ++j) {
+            sum += matrix.getData()[i*matrix.getDimension() +j];
+         }
+
+         if (sum == 0) {
+            dangling.getArray()[i] = 1;
          }
       }
 
-      //std::cout << matrix.toString();
+      //TODO add Richardson-Euler method
+      float c = 0.85;
+
+      Matrix personalizationVector(1, LENGTH-1, {});
+
+      for (i = 0; i < personalizationVector.getColumns(); ++i) {
+         personalizationVector.getArray()[i] = 1.0f/(LENGTH-1);
+      }
+
+      Matrix e(LENGTH-1, 1, {});
+
+      for (i = 0; i < e.getRows(); ++i) {
+         e.getArray()[i] = 1;
+      }
+
+      Matrix first(matrix + dangling*personalizationVector);
+
+      Matrix second(e*personalizationVector);
+
+      first *= c;
+      second *= (1-c);
+      first += second;
+
+      SquareMatrix aMatrix(SquareMatrix::transpose(*static_cast<SquareMatrix*>(&first)));
+
+      FloatVector z_k(LENGTH-1, {});
+      FloatVector previousZk(LENGTH-1, {});
+
+      //TODO check on personalization vector
+      for (i = 0; i < LENGTH-1; ++i) {
+         z_k.get_vector().get()[i] = 1.0f/(LENGTH-1);
+      }
+
+      //TODO fix "criterio di arresto"
+      while (true) {
+         previousZk = z_k;
+         z_k = std::move(aMatrix.multiplyVector(z_k));
+         std::cout << z_k.to_string() << std::endl << std::endl;
+      }
+
+   } else {
+      std::cout << "SOS";
    }
 
    return 0;
+}
+
+void clear_screen(char fill = ' ') {
+   COORD tl = {0,0};
+   CONSOLE_SCREEN_BUFFER_INFO s;
+   HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+   GetConsoleScreenBufferInfo(console, &s);
+   DWORD written, cells = s.dwSize.X * s.dwSize.Y;
+   FillConsoleOutputCharacter(console, fill, cells, tl, &written);
+   FillConsoleOutputAttribute(console, s.wAttributes, cells, tl, &written);
+   SetConsoleCursorPosition(console, tl);
 }

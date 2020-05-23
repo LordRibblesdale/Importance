@@ -1,4 +1,12 @@
+#include <vector>
 #include "FloatArray.h"
+
+FloatArray::FloatArray(unsigned short rows, unsigned short columns) {
+   rows_ = rows;
+   columns_ = columns;
+
+   //array_ = std::move(new float[rows*columns]);
+}
 
 FloatArray::FloatArray(unsigned short rows, unsigned short columns, const std::initializer_list<float> &data) : rows_(rows), columns_(columns) {
    array_ = move(std::unique_ptr<float>(new float[rows*columns]));

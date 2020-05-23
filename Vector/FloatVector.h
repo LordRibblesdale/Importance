@@ -2,6 +2,8 @@
 #define FLOATVECTOR_H
 
 #include <memory>
+#include <iostream>
+#include <vector>
 
 struct FloatVector {
    std::unique_ptr<float> vector_;
@@ -41,6 +43,51 @@ public:
    }
 
    //TODO add all operators and functions
+   FloatVector& operator=(const FloatVector& vector) {
+      vector_ = std::unique_ptr<float>(new float[vector.get_size()]);
+      FloatVector::size_ = vector.get_size();
+
+      for (int i = 0; i < size_; ++i) {
+         vector_.get()[i] = vector.get_vector().get()[i];
+      }
+
+      return *this;
+   }
+
+   FloatVector& operator=(FloatVector&& vector) {
+      //TODO test const_cast here
+      //USED in: Matrix::multiplyVector()
+      vector_ = move(std::unique_ptr<float>((const_cast<std::unique_ptr<float>&>(vector.get_vector())).release()));
+      size_ = vector.get_size();
+
+      return *this;
+   }
+
+   FloatVector operator+(const FloatVector& vector) {
+      if (size_ == vector.get_size()) {
+         for (int i = 0; i < size_; ++i) {
+            vector_.get()[i] += vector.get_vector().get()[i];
+         }
+      } else {
+         std::string s = "Exception VECTOR_SUM: dimensions do not correspond. ";
+         s.append("(").append(std::to_string(size_)).append(", ").append(std::to_string(vector.get_size())).append(")\n");
+
+         throw (size_);
+      }
+   }
+
+   FloatVector operator-(const FloatVector& vector) {
+      if (size_ == vector.get_size()) {
+         for (int i = 0; i < size_; ++i) {
+            vector_.get()[i] -= vector.get_vector().get()[i];
+         }
+      } else {
+         std::string s = "Exception VECTOR_SUM: dimensions do not correspond. ";
+         s.append("(").append(std::to_string(size_)).append(", ").append(std::to_string(vector.get_size())).append(")\n");
+
+         throw (size_);
+      }
+   }
 
    const unsigned int& get_size() const {
       return size_;
@@ -51,10 +98,22 @@ public:
    }
 
    std::string to_string() const {
+      std::cout.precision(7);
       std::string s;
 
       for (auto i = 0; i < get_size(); ++i) {
          s.append("[").append(std::to_string(get_vector().get()[i])).append("]\n");
+      }
+
+      return s;
+   }
+
+   std::string to_string(std::vector<std::string> names) const {
+      std::cout.precision(7);
+      std::string s;
+
+      for (auto i = 0; i < get_size(); ++i) {
+         s.append(names.at(i)).append(" ").append("[").append(std::to_string(get_vector().get()[i])).append("]\n");
       }
 
       return s;
