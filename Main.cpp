@@ -2,12 +2,9 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include <windows.h>
 #include "Matrix/SquareMatrix.h"
 
 unsigned int LENGTH = 20;
-
-void clear_screen(char);
 
 int main(int argc, char** argv) {
    std::ifstream file("matrix");
@@ -18,7 +15,7 @@ int main(int argc, char** argv) {
       std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
       std::vector<std::string> names;
-      std::unique_ptr<float> vector(new float[(LENGTH-1)*(LENGTH-1)]);
+      std::shared_ptr<float> vector(new float[(LENGTH-1)*(LENGTH-1)]);
       SquareMatrix matrix(LENGTH-1, vector.get());
 
       int mi = 0;
@@ -52,7 +49,11 @@ int main(int argc, char** argv) {
       }
 
       file.close();
+      buffer.clear();
 
+      std::cout << matrix.toString() << std::endl;
+
+      /*
       Matrix dangling(LENGTH-1, 1, {});
 
       for (i = 0; i < matrix.getDimension(); ++i) {
@@ -100,27 +101,18 @@ int main(int argc, char** argv) {
          z_k.get_vector().get()[i] = 1.0f/(LENGTH-1);
       }
 
+      /*
       //TODO fix "criterio di arresto"
       while (true) {
          previousZk = z_k;
          z_k = std::move(aMatrix.multiplyVector(z_k));
          std::cout << z_k.to_string() << std::endl << std::endl;
       }
+       */
 
    } else {
       std::cout << "SOS";
    }
 
    return 0;
-}
-
-void clear_screen(char fill = ' ') {
-   COORD tl = {0,0};
-   CONSOLE_SCREEN_BUFFER_INFO s;
-   HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-   GetConsoleScreenBufferInfo(console, &s);
-   DWORD written, cells = s.dwSize.X * s.dwSize.Y;
-   FillConsoleOutputCharacter(console, fill, cells, tl, &written);
-   FillConsoleOutputAttribute(console, s.wAttributes, cells, tl, &written);
-   SetConsoleCursorPosition(console, tl);
 }
