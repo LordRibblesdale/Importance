@@ -98,7 +98,6 @@ public:
    }
 
    std::string to_string() const {
-      std::cout.precision(7);
       std::string s;
 
       for (auto i = 0; i < get_size(); ++i) {
@@ -108,8 +107,7 @@ public:
       return s;
    }
 
-   std::string to_string(std::vector<std::string> names) const {
-      std::cout.precision(7);
+   std::string to_string(std::vector<std::string>& names) const {
       std::string s;
 
       for (auto i = 0; i < get_size(); ++i) {
