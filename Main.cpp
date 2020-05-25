@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
       std::unique_ptr<Matrix> personalizationVector(new Matrix(1, LENGTH, {}));
       std::unique_ptr<Matrix> e(new Matrix(LENGTH, 1, {}));
 
-      FloatVector z_k(LENGTH, {});
+      std::unique_ptr<FloatVector> z_k(new FloatVector(LENGTH, {}));
 
       for (i = 0; i < matrix->getDimension(); ++i) {
          float sum = 0;
@@ -70,32 +70,46 @@ int main(int argc, char** argv) {
 
          personalizationVector->getArray()[i] = 1.0f/(LENGTH);
          e->getArray()[i] = 1;
-         z_k.get_vector().get()[i] = 1.0f/(LENGTH);
+         z_k->get_vector().get()[i] = 1.0f/(LENGTH);
       }
 
-      Matrix aMatrix(Matrix::transpose((*matrix + *dangling*(*personalizationVector))*c + (*e*(*personalizationVector))*(1-c)));
+      Matrix tmp0(std::move((*personalizationVector)*(1-c)));
+      Matrix tmp1(std::move(*e * tmp0));
+      Matrix tmp2(std::move(Matrix::transpose((*matrix + *dangling*(*personalizationVector))*c)));
+      personalizationVector.release();
+      e.release();
+      matrix.release();
+      dangling.release();
 
+      Matrix aMatrix(std::move(tmp1 + tmp2));
 
       //TODO fix "criterio di arresto"
       int stop = 0;
       while (++stop < 100) {
-         z_k = std::move(aMatrix.multiplyVector(z_k));
-         std::cout << z_k.to_string(names) << std::endl << std::endl;
+         *z_k = std::move(aMatrix.multiplyVector(*z_k));
       }
 
-      //std::unique_ptr<Matrix> identity(new Matrix(LENGTH, LENGTH));
+      std::cout << z_k->to_string(names) << std::endl << std::endl;
 
+      //std::unique_ptr<Matrix> identity(new Matrix(LENGTH, LENGTH));
+      //FloatVector tmp3(LENGTH, {});
+
+      //TODO fix values here
       //for (i = 0; i < LENGTH; ++i) {
       //   identity->getArray()[i*LENGTH + i] = 1;
+      //   z_k->get_vector().get()[i] = 1.0f/(LENGTH);
+      //   tmp3.get_vector().get()[i] = tmp0.getArray()[i];
       //}
 
-      //std::unique_ptr<Matrix> base(new Matrix((*matrix + *dangling*(*personalizationVector))*c));
-      //matrix.release();
-      //dangling.release();
-      //personalizationVector.release();
-      //e.release();
-
-      //FloatVector x_k(LENGTH, {});
+      //*identity -= tmp2;
+      //tmp0 = std::move(Matrix::transpose(tmp0));
+//
+      //stop = 0;
+      //while (++stop < 100) {
+      //   *z_k = std::move(identity->multiplyVector(*z_k) + tmp3);
+      //}
+//
+      //std::cout << z_k->to_string(names) << std::endl << std::endl;
    } else {
       std::cout << "SOS";
    }
