@@ -10,7 +10,19 @@ public:
    SquareMatrix(unsigned int dimension, float* data);
    SquareMatrix(const SquareMatrix& matrix);
    SquareMatrix(SquareMatrix&& matrix);
+   SquareMatrix(const Matrix& matrix);
+   SquareMatrix(Matrix&& matrix);
    ~SquareMatrix();
+
+   SquareMatrix& operator=(const SquareMatrix& matrix);
+   SquareMatrix& operator=(SquareMatrix&& matrix);
+   SquareMatrix operator+(const SquareMatrix& matrix);
+   void operator+=(const SquareMatrix& matrix);
+   SquareMatrix operator-(const SquareMatrix& matrix);
+   void operator-=(const SquareMatrix& matrix);
+   SquareMatrix operator*(float scalar);
+   void operator*=(float scalar);
+   SquareMatrix operator*(const SquareMatrix& matrix);
 
    void transpose();
    static SquareMatrix transpose(const SquareMatrix& matrix);
@@ -28,7 +40,7 @@ public:
    static SquareMatrix calculateInverse(const SquareMatrix& matrix);
 
    inline unsigned int getDimension() const {
-      return data_.getRows();
+      return data_->getRows();
    }
 };
 

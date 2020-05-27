@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
          float sum = 0;
 
          for (int j = 0; j < matrix->getDimension(); ++j) {
-            sum += matrix->getData()[i*matrix->getDimension() +j];
+            sum += matrix->getData()->operator[](i*matrix->getDimension() +j);
          }
 
          if (sum == 0) {
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
 
          personalizationVector->getArray()[i] = 1.0f/(LENGTH);
          e->getArray()[i] = 1;
-         z_k->get_vector().get()[i] = 1.0f/(LENGTH);
+         z_k->getVector().get()[i] = 1.0f/(LENGTH);
       }
 
       Matrix tmp0(std::move((*personalizationVector)*(1-c)));
@@ -85,13 +85,13 @@ int main(int argc, char** argv) {
 
       //TODO fix "criterio di arresto"
       int stop = 0;
-      while (++stop < 100) {
+      while (++stop < 50) {
          *z_k = std::move(aMatrix.multiplyVector(*z_k));
       }
 
-      std::cout << z_k->to_string(names) << std::endl << std::endl;
+      std::cout << z_k->toString(names) << std::endl << std::endl;
 
-      //std::unique_ptr<Matrix> identity(new Matrix(LENGTH, LENGTH));
+      //std::unique_ptr<Matrix> identity(new Matrix(LENGTH, LENGTH, {}));
       //FloatVector tmp3(LENGTH, {});
 
       //TODO fix values here
