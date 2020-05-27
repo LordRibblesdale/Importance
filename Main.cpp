@@ -91,25 +91,26 @@ int main(int argc, char** argv) {
 
       std::cout << z_k->toString(names) << std::endl << std::endl;
 
-      //std::unique_ptr<Matrix> identity(new Matrix(LENGTH, LENGTH, {}));
-      //FloatVector tmp3(LENGTH, {});
+      std::unique_ptr<Matrix> identity(new Matrix(LENGTH, LENGTH, {}));
+      FloatVector tmp3(LENGTH, {});
 
+      /*
       //TODO fix values here
-      //for (i = 0; i < LENGTH; ++i) {
-      //   identity->getArray()[i*LENGTH + i] = 1;
-      //   z_k->get_vector().get()[i] = 1.0f/(LENGTH);
-      //   tmp3.get_vector().get()[i] = tmp0.getArray()[i];
-      //}
+      for (i = 0; i < LENGTH; ++i) {
+         identity->getArray()[i*LENGTH + i] = 1;
+         z_k->getVector().get()[i] = 1.0f/(LENGTH);
+         tmp3.getVector().get()[i] = tmp0.getArray()[i];
+      }
 
-      //*identity -= tmp2;
-      //tmp0 = std::move(Matrix::transpose(tmp0));
+      *identity -= tmp2;
 //
-      //stop = 0;
-      //while (++stop < 100) {
-      //   *z_k = std::move(identity->multiplyVector(*z_k) + tmp3);
-      //}
+      stop = 0;
+      while (++stop < 200) {
+         *z_k = std::move(identity->multiplyVector(*z_k) + tmp3);
+      }
 //
-      //std::cout << z_k->to_string(names) << std::endl << std::endl;
+      std::cout << z_k->toString(names) << std::endl << std::endl;
+       */
    } else {
       std::cout << "SOS";
    }
