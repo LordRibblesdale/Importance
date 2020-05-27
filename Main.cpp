@@ -95,6 +95,7 @@ int main(int argc, char** argv) {
       FloatVector tmp3(LENGTH, {});
 
       /*
+      //TODO prepare Richardson-Euler
       //TODO fix values here
       for (i = 0; i < LENGTH; ++i) {
          identity->getArray()[i*LENGTH + i] = 1;
