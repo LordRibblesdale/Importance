@@ -1,3 +1,4 @@
+#include <iostream>
 #include "FloatArray.h"
 
 FloatArray::FloatArray(unsigned short rows, unsigned short columns, const std::initializer_list<float> &data) : rows_(rows), columns_(columns) {
@@ -21,7 +22,7 @@ FloatArray::FloatArray(unsigned short rows, unsigned short columns, float*& data
 }
 
 FloatArray::FloatArray(const FloatArray &floatArray) {
-   array_ = std::unique_ptr<float>(new float[floatArray.getRows() * floatArray.getColumns()]);
+   array_ = std::move(std::unique_ptr<float>(new float[floatArray.getRows() * floatArray.getColumns()] {0}));
    FloatArray::rows_ = floatArray.getRows();
    FloatArray::columns_ = floatArray.getColumns();
 
@@ -32,7 +33,7 @@ FloatArray::FloatArray(const FloatArray &floatArray) {
 
 FloatArray::FloatArray(FloatArray&& floatArray) {
    //TODO test const_cast here
-   array_ = move(std::unique_ptr<float>((const_cast<std::unique_ptr<float>&>(floatArray.getArray())).release()));
+   array_ = std::move(std::unique_ptr<float>((const_cast<std::unique_ptr<float>&>(floatArray.getArray())).release()));
    rows_ = floatArray.getRows();
    columns_ = floatArray.getColumns();
 
@@ -40,7 +41,7 @@ FloatArray::FloatArray(FloatArray&& floatArray) {
 }
 
 FloatArray &FloatArray::operator=(const FloatArray &floatArray) {
-   array_ = std::unique_ptr<float>(new float[floatArray.getRows() * floatArray.getColumns()]);
+   array_ = std::move(std::unique_ptr<float>(new float[floatArray.getRows() * floatArray.getColumns()] {0}));
    FloatArray::rows_ = floatArray.getRows();
    FloatArray::columns_ = floatArray.getColumns();
 
