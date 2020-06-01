@@ -103,24 +103,26 @@ int main(int argc, char** argv) {
       for (i = 0; i < LENGTH; ++i) {
          identity->getArray()[i*LENGTH + i] = 1;
          identity2->getArray()[i*LENGTH + i] = 1;
+         tmp3.getVector().get()[i] = tmp0.getArray()[i];
       }
 
       // (I - c*(Tr(G) + d v^T)^T)
       *identity -= tmp2;
 
-      float w = 0;
+      float w = 1;
 
+      /*
       for (i = 0; i < LENGTH; ++i) {
          // Using matrix trace as w in (0, 2/lamda_max(I - c*(Tr(G) + d v^T)^T))
          w += identity->getArray()[i*LENGTH + i];
       }
+       */
 
       *identity2 -= *identity*w;
 
       stop = 0;
-      while (++stop < 200) {
+      while (++stop < 100) {
          // x_k+1 = (I - wA)x_k + wb)
-         //TODO fix values - Not Working rn
          *z_k = std::move(identity2->multiplyVector(*z_k) + w*tmp3);
       }
 
